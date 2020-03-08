@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 set -e
+
+# Ensure $HOME/.netrc exists. Do not store this in version control
+if [ ! -f "$HOME/.netrc" ]; then
+  touch "$HOME/.netrc"
+fi
+
 # Define where dotfiles repo exists
 DOTFILES_DIR="$HOME/.dotfiles"
 
