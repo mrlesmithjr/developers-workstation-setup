@@ -282,11 +282,11 @@ if [[ $(uname) == "Linux" ]]; then
   else
     bash -c \
       "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-    test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+    test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   fi
   if [ ! -d /home/linuxbrew/.linuxbrew/var/homebrew/linked ]; then
     sudo mkdir -p /home/linuxbrew/.linuxbrew/var/homebrew/linked
-    sudo chown -R $(whoami) /home/linuxbrew/.linuxbrew/var/homebrew/linked
+    sudo chown -R "$(whoami)" /home/linuxbrew/.linuxbrew/var/homebrew/linked
   fi
 fi
 
@@ -317,6 +317,7 @@ if [ ! -d "$PYTHON3_VIRTUALENV_DIR" ]; then
   else
     python3 -m venv "$PYTHON3_VIRTUALENV_DIR"
   fi
+  # shellcheck source=/dev/null
   source "$PYTHON3_VIRTUALENV_DIR"/bin/activate
   $PYTHON_PIP_CMD install --upgrade pip
   deactivate
@@ -338,6 +339,7 @@ elif [ -L "$DEFAULT_VIRTUALENV" ]; then
 fi
 
 # Source our default Python virtual environment
+# shellcheck source=/dev/null
 source "$DEFAULT_VIRTUALENV"/bin/activate
 
 set +e
