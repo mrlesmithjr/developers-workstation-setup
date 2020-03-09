@@ -1,0 +1,6 @@
+[submodule "roles/ansible-hashicorp-toolbox"]
+path = roles/ansible-hashicorp-toolbox
+url = https://github.com/mrlesmithjr/ansible-hashicorp-toolbox.git
+[submodule "roles/ansible-virtualbox"]
+path = roles/ansible-virtualbox
+url = https://github.com/mrlesmithjr/ansible-virtualbox.git
