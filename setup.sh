@@ -11,6 +11,8 @@ DOTFILES_DIR="$HOME/.dotfiles"
 if [ ! -d "$DOTFILES_DIR" ]; then
   git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR" --recurse-submodules
   source "$DOTFILES_DIR/setup.sh"
+  git config --global user.name ""
+  git config --global user.email ""
 fi
 
 #### Python Virtual Environment Setup ####
