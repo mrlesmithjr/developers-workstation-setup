@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -e
+set -x
 
 # Define where dotfiles repo exists
 DOTFILES_DIR="$HOME/.dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
-  git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR"
+  git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR" --recursive
   source "$DOTFILES_DIR/setup.sh"
 fi
 
