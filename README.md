@@ -21,6 +21,7 @@ Next you will need to kick-off the setup script. Which will do the following:
 
 - Setup [dotfiles](https://github.com/mrlesmithjr/dotfiles)
 - Kick of Ansible [playbook](ansible-install-os-packages.yml)
+- Setup [time machine exclusions](https://github.com/mrlesmithjr/time_machine_exclusions)
 
 ```bash
 cd developers-workstation-setup

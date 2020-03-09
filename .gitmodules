@@ -4,3 +4,6 @@ url = https://github.com/mrlesmithjr/ansible-hashicorp-toolbox.git
 [submodule "roles/ansible-virtualbox"]
 path = roles/ansible-virtualbox
 url = https://github.com/mrlesmithjr/ansible-virtualbox.git
+[submodule "tools/time_machine_exclusions"]
+	path = tools/time_machine_exclusions
+	url = https://github.com/mrlesmithjr/time_machine_exclusions

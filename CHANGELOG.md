@@ -1,3 +1,39 @@
+commit e885634e3aea8c767641c5f0c2866a378a808b56
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 09:18:00 2020 -0400
+
+    Added more context to repo info
+
+commit ce09eee71c2682d84873988602bbf943d650635c
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 09:15:34 2020 -0400
+
+    Resets git user and email on first execution
+
+commit 0794c8255ea8123e8b6b144b068a3a654cf21c0c
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 08:35:03 2020 -0400
+
+    Ansible is not finding playbook
+
+commit 1362e8c409e0289d1029f4ca276583d0000b674b
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 08:23:44 2020 -0400
+
+    Trying to fix this script finally
+
+commit 35b93462f284adcaae1644559770f9789acc49a0
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 02:30:13 2020 -0400
+
+    Added set -x to troubleshoot
+
+commit 2d9156d1a7775eeeafb98c8b1a57b8b12902de6d
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 02:01:38 2020 -0400
+
+    Updated: repo info, etc.
+
 commit 172b332e5ece178aa66855475b15bf6bf027771e
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Mar 9 01:27:26 2020 -0400

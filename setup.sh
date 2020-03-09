@@ -8,11 +8,21 @@ BUILD_DIR="$PWD"
 # Define where dotfiles repo exists
 DOTFILES_DIR="$HOME/.dotfiles"
 
+# First we need to check and see if the original dotfiles repo structure is in
+# place. If it is, back it up and clone the new structure and setup.
 if [ ! -d "$DOTFILES_DIR" ]; then
   git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR" --recurse-submodules
   source "$DOTFILES_DIR/setup.sh"
   git config --global user.name ""
   git config --global user.email ""
+else
+  if [ -f "$DOTFILES_DIR/install/setup.sh" ]; then
+    mv "$DOTFILES_DIR" "$DOTFILES_DIR.orig"
+    git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR" --recurse-submodules
+    source "$DOTFILES_DIR/setup.sh"
+    git config --global user.name ""
+    git config --global user.email ""
+  fi
 fi
 
 #### Python Virtual Environment Setup ####
@@ -79,3 +89,15 @@ fi
 cd "$BUILD_DIR"
 ansible-playbook ansible-install-os-packages.yml -K
 # ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
+
+# If running on macOS, setup Time Machine Exclusions
+if [[ $(uname) == "Darwin" ]]; then
+  if [ -d "$BUILD_DIR/tools/time_machine_exclusions" ]; then
+    if [ -f "$BUILD_DIR/tools/time_machine_exclusions/install.sh" ]; then
+      cd "$BUILD_DIR/tools/time_machine_exclusions"
+      source install.sh
+    fi
+  fi
+fi
+
+cd "$BUILD_DIR"
