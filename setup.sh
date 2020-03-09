@@ -2,6 +2,9 @@
 set -e
 set -x
 
+# Define location of where we are cloned to and executed from
+BUILD_DIR="$PWD"
+
 # Define where dotfiles repo exists
 DOTFILES_DIR="$HOME/.dotfiles"
 
@@ -71,5 +74,6 @@ else
   $PYTHON_PIP_CMD install ansible
 fi
 
-ansible-playbook "$PWD/ansible-install-os-packages.yml" -K
+cd "$BUILD_DIR"
+ansible-playbook ansible-install-os-packages.yml -K
 # ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
