@@ -15,19 +15,19 @@ brew_cask_packages:
   - name: authy
     state: present
   - name: azure-data-studio
-    state: present
+    state: absent
   - name: balenaetcher
-    state: present
+    state: absent
   - name: bitwarden
     state: present
   - name: brave-browser
     state: present
   - name: cyberduck
-    state: present
+    state: absent
   - name: db-browser-for-sqlite
-    state: present
+    state: absent
   - name: docker
-    state: present
+    state: absent
   - name: dropbox
     state: present
   - name: firefox
@@ -77,15 +77,15 @@ brew_cask_packages:
   - name: pandora
     state: absent
   - name: postman
-    state: present
+    state: absent
   - name: powershell
-    state: present
+    state: absent
   - name: rcdefaultapp
     state: absent
   - name: royal-tsx
-    state: present
+    state: absent
   - name: sequel-pro
-    state: present
+    state: absent
   - name: skype
     state: present
   - name: slack
@@ -97,25 +97,25 @@ brew_cask_packages:
   - name: sublime-text
     state: absent
   - name: tigervnc-viewer
-    state: present
+    state: absent
   - name: unetbootin
-    state: present
+    state: absent
   - name: vagrant
-    state: present
+    state: absent
   - name: vagrant-manager
     state: absent
   - name: vagrant-vmware-utility
-    state: present
+    state: absent
   - name: virtualbox
-    state: present
+    state: absent
   - name: virtualbox-extension-pack
-    state: present
+    state: absent
   - name: visual-studio-code
     state: present
   - name: vmware-fusion
-    state: present
+    state: absent
   - name: vnc-viewer
-    state: present
+    state: absent
 
 brew_packages:
   - name: apm-bash-completion
@@ -129,13 +129,13 @@ brew_packages:
   - name: boot2docker
     state: absent
   - name: consul
-    state: present
+    state: absent
   - name: ctags
     state: absent
   - name: docker-completion
-    state: present
+    state: absent
   - name: docker-compose-completion
-    state: present
+    state: absent
   - name: doxygen
     state: absent
   - name: flint-checker
@@ -155,28 +155,28 @@ brew_packages:
   - name: jq
     state: present
   - name: kubernetes-helm
-    state: present
+    state: absent
     # Provides drill. dig replacement
   - name: ldns
-    state: present
+    state: absent
   - name: libiconv
     state: absent
   - name: libvirt
     state: absent
   - name: mysql
-    state: present
+    state: absent
   - name: nmap
-    state: present
+    state: absent
   - name: npm
     state: present
   - name: nomad
-    state: present
+    state: absent
   - name: openssl
     state: present
   - name: packer
-    state: present
+    state: absent
   - name: packer-completion
-    state: present
+    state: absent
   - name: pandoc
     state: present
   - name: pass
@@ -194,7 +194,7 @@ brew_packages:
   - name: readline
     state: present
   - name: redis
-    state: present
+    state: absent
   - name: shellcheck
     state: present
   - name: ssh-copy-id
@@ -206,17 +206,17 @@ brew_packages:
   - name: terraform-provisioner-ansible
     state: absent
   - name: tfenv
-    state: present
+    state: absent
   - name: tmux
-    state: present
+    state: absent
   - name: tree
     state: present
   - name: unixodbc
     state: absent
   - name: vagrant-completion
-    state: present
+    state: absent
   - name: vault
-    state: present
+    state: absent
   - name: vim
     state: present
   - name: watch
