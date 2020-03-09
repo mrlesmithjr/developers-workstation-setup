@@ -6,7 +6,7 @@ set -x
 DOTFILES_DIR="$HOME/.dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
-  git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR" --recursive
+  git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR" --recurse-submodules
   source "$DOTFILES_DIR/setup.sh"
 fi
 
@@ -71,5 +71,5 @@ else
   $PYTHON_PIP_CMD install ansible
 fi
 
-ansible-playbook ansible-install-os-packages.yml -K
+ansible-playbook "$PWD/ansible-install-os-packages.yml" -K
 # ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
