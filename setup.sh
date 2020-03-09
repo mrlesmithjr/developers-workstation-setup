@@ -5,7 +5,7 @@ set -e
 DOTFILES_DIR="$HOME/.dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
-  git clone https://github.com/mrlesmithjr/dotfiles "$DOTFILES_DIR"
+  git clone https://github.com/mrlesmithjr/dotfiles-new "$DOTFILES_DIR"
   source "$DOTFILES_DIR/setup.sh"
 fi
 
