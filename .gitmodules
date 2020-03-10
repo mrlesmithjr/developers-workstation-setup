@@ -34,3 +34,9 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "tools/cookiecutter-ansible-role"]
 	path = tools/cookiecutter-ansible-role
 	url = https://github.com/mrlesmithjr/cookiecutter-ansible-role.git
+[submodule "tools/python-github-stats"]
+	path = tools/python-github-stats
+	url = https://github.com/mrlesmithjr/python-github-stats.git
+[submodule "tools/python-gitlab-api"]
+	path = tools/python-gitlab-api
+	url = https://github.com/mrlesmithjr/python-gitlab-api.git
