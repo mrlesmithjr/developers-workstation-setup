@@ -7,3 +7,24 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "tools/time_machine_exclusions"]
 	path = tools/time_machine_exclusions
 	url = https://github.com/mrlesmithjr/time_machine_exclusions
+[submodule "tools/packer-templates"]
+	path = tools/packer-templates
+	url = https://github.com/mrlesmithjr/packer-templates.git
+[submodule "tools/vagrant-box-templates"]
+	path = tools/vagrant-box-templates
+	url = https://github.com/mrlesmithjr/vagrant-box-templates.git
+[submodule "tools/python-clone-github-user-repos"]
+	path = tools/python-clone-github-user-repos
+	url = https://github.com/mrlesmithjr/python-clone-github-user-repos.git
+[submodule "tools/sync-forked-repo"]
+	path = tools/sync-forked-repo
+	url = https://github.com/mrlesmithjr/sync-forked-repo.git
+[submodule "tools/python-sync-git-repos"]
+	path = tools/python-sync-git-repos
+	url = https://github.com/mrlesmithjr/python-sync-git-repos.git
+[submodule "tools/python-terraform-to-ansible"]
+	path = tools/python-terraform-to-ansible
+	url = https://github.com/mrlesmithjr/python-terraform-to-ansible.git
+[submodule "tools/packer-builder"]
+	path = tools/packer-builder
+	url = https://github.com/mrlesmithjr/packer-builder.git
