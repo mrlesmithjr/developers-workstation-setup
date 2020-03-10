@@ -28,3 +28,9 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "tools/packer-builder"]
 	path = tools/packer-builder
 	url = https://github.com/mrlesmithjr/packer-builder.git
+[submodule "tools/cookiecutter-python-project"]
+	path = tools/cookiecutter-python-project
+	url = https://github.com/mrlesmithjr/cookiecutter-python-project.git
+[submodule "tools/cookiecutter-ansible-role"]
+	path = tools/cookiecutter-ansible-role
+	url = https://github.com/mrlesmithjr/cookiecutter-ansible-role.git
