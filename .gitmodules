@@ -22,9 +22,6 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "tools/python-sync-git-repos"]
 	path = tools/python-sync-git-repos
 	url = https://github.com/mrlesmithjr/python-sync-git-repos.git
-[submodule "tools/python-terraform-to-ansible"]
-	path = tools/python-terraform-to-ansible
-	url = https://github.com/mrlesmithjr/python-terraform-to-ansible.git
 [submodule "tools/packer-builder"]
 	path = tools/packer-builder
 	url = https://github.com/mrlesmithjr/packer-builder.git
@@ -40,3 +37,6 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "tools/python-gitlab-api"]
 	path = tools/python-gitlab-api
 	url = https://github.com/mrlesmithjr/python-gitlab-api.git
+[submodule "tools/terraform-to-ansible"]
+	path = tools/terraform-to-ansible
+	url = https://github.com/mrlesmithjr/terraform-to-ansible.git
