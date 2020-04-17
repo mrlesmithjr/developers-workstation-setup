@@ -45,7 +45,7 @@ brew_cask_packages:
   - name: google-photos-backup-and-sync
     state: absent
   - name: hyper
-    state: absent
+    state: present
   - name: idrive
     state: present
   - name: iterm2
