@@ -40,3 +40,6 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "tools/terraform-to-ansible"]
 	path = tools/terraform-to-ansible
 	url = https://github.com/mrlesmithjr/terraform-to-ansible.git
+[submodule "roles/ansible-docker"]
+	path = roles/ansible-docker
+	url = https://github.com/mrlesmithjr/ansible-docker.git

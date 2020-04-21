@@ -4,6 +4,13 @@
   roles:
     - role: ansible-hashicorp-toolbox
       when: ansible_os_family != "Darwin"
+    - role: ansible-docker
+      when: >
+        (ansible_os_family == "Debian" or
+        ansible_distribution == "Fedora" or
+        ansible_os_family == "Archlinux"or
+        ansible_os_family == "elementary OS") and
+        ansible_virtualization_role != "guest"
     - role: ansible-virtualbox
       when: >
         (ansible_os_family == "Debian" or
