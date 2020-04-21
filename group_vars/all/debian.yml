@@ -5,6 +5,8 @@ debian_packages:
   - name: jq
     state: present
   - name: keepassx
+    state: absent
+  - name: keepassxc
     state: present
   - name: nmap
     state: present
