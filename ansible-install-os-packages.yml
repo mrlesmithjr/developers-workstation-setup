@@ -30,12 +30,12 @@
 
         - name: Installing OS Packages
           pacman:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           become: true
           register: result
           until: result is successful
-          with_items: "{{ arch_packages }}"
+          loop: "{{ arch_packages }}"
 
       when: ansible_os_family == "Archlinux"
 
@@ -48,17 +48,17 @@
         - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
           fail:
             msg: Homebrew is missing...Install from http://brew.sh/
-          when: >
-            not homebrew_check.stat.exists and
-            not install_homebrew_if_missing|bool
+          when:
+            - not homebrew_check.stat.exists
+            - not install_homebrew_if_missing|bool
 
         - name: Installing Homebrew
           command: >
             /usr/bin/ruby -e \
             $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)
-          when: >
-            not homebrew_check.stat.exists and
-            install_homebrew_if_missing|bool
+          when:
+            - not homebrew_check.stat.exists
+            - install_homebrew_if_missing|bool
 
       when: ansible_os_family == "Darwin"
 
@@ -80,29 +80,29 @@
 
         - name: Installing Homebrew Taps
           homebrew_tap:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           register: result
           until: result is successful
-          with_items: "{{ brew_taps }}"
+          loop: "{{ brew_taps }}"
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Cask Packages
           homebrew_cask:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           register: result
           until: result is successful
-          with_items: "{{ brew_cask_packages }}"
+          loop: "{{ brew_cask_packages }}"
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Packages
           homebrew:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           register: result
           until: result is successful
-          with_items: "{{ brew_packages }}"
+          loop: "{{ brew_packages }}"
           when: homebrew_check.stat.exists
 
       when: ansible_os_family == "Darwin"
@@ -121,18 +121,18 @@
             url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
             state: present
           become: true
-          when: >
-            ansible_distribution == "Debian" and
-            ansible_distribution_version >= "9"
+          when:
+            - ansible_distribution == "Debian"
+            - ansible_distribution_version is version('9', '>=')
 
         - name: Adding NodeJS Repo
           apt_repository:
             repo: "{{ 'deb https://deb.nodesource.com/node_11.x ' + ansible_distribution_release|lower + ' main' }}"
             state: present
           become: true
-          when: >
-            ansible_distribution == "Debian" and
-            ansible_distribution_version >= "9"
+          when:
+            - ansible_distribution == "Debian"
+            - ansible_distribution_version is version('9', '>=')
 
         - name: Adding Debian Contrib Component
           apt_repository:
@@ -151,12 +151,12 @@
 
         - name: Installing OS Packages
           apt:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           become: true
           register: result
           until: result is successful
-          with_items: "{{ debian_packages }}"
+          loop: "{{ debian_packages }}"
 
         - name: Installing fonts-firacode
           apt:
@@ -167,9 +167,9 @@
           until: result is successful
           when: >
             (ansible_distribution == "Ubuntu" and
-            ansible_distribution_version >= "18.04") or
+            ansible_distribution_version is version('18.04', '>=')) or
             (ansible_distribution == "Debian" and
-            ansible_distribution_version >= "9") or
+            ansible_distribution_version is version('9', '>=')) or
             ansible_distribution == "elementary OS"
 
         - name: Installing ATOM Editor
@@ -282,7 +282,7 @@
           become: true
           register: result
           until: result is successful
-          when: _vscode_repo_removed['changed']
+          when: _vscode_repo_removed.changed
 
         - name: Installing Postman Pre-Reqs
           apt:
@@ -293,7 +293,7 @@
           until: result is successful
           when: >
             (ansible_distribution == "Ubuntu" and
-            ansible_distribution_version >= "18.04") or
+            ansible_distribution_version is version('18.04', '>=')) or
             ansible_distribution == "elementary OS"
 
         - name: Installing Postman
@@ -353,12 +353,12 @@
 
         - name: Installing OS Packages
           yum:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           become: true
           register: result
           until: result is successful
-          with_items: "{{ redhat_packages }}"
+          loop: "{{ redhat_packages }}"
 
         - name: Installing ATOM Editor
           yum:
@@ -408,9 +408,9 @@
           register: result
           until: result is successful
 
-      when: >
-        ansible_os_family == "RedHat" and
-        ansible_distribution != "Fedora"
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_distribution != "Fedora"
 
     - block:
         - name: Updating vim-minimal (If Installed)
@@ -419,16 +419,16 @@
 
         - name: Installing OS Packages
           dnf:
-            name: "{{ item['name'] }}"
-            state: "{{ item['state'] }}"
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
           become: true
           register: result
           until: result is successful
-          with_items: "{{ redhat_packages }}"
+          loop: "{{ redhat_packages }}"
 
         - name: Installing ATOM Editor
           dnf:
-            name: "{{ atom_editor_dl }}/atom.x86_64.rpm"
+            name: "{{ atom_editor_dl+'/atom.x86_64.rpm' }}"
             state: present
           become: true
           register: result
@@ -468,55 +468,55 @@
           register: result
           until: result is successful
 
-      when: >
-        ansible_os_family == "RedHat" and
-        ansible_distribution == "Fedora"
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_distribution == "Fedora"
 
     - name: Installing Ruby Gems
       gem:
-        name: "{{ item['name'] }}"
-        state: "{{ item['state'] }}"
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
       # become: true
       register: result
       until: result is successful
-      with_items: "{{ gem_packages }}"
-      when: >
-        gem_packages is defined
+      loop: "{{ gem_packages }}"
+      when:
+        - gem_packages is defined
 
     - name: Installing NPM Packages
       npm:
-        name: "{{ item['name'] }}"
-        state: "{{ item['state'] }}"
-        global: "{{ item['global'] }}"
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+        global: "{{ item.global }}"
       become: true
       register: result
       until: result is successful
-      with_items: "{{ npm_packages }}"
-      when: >
-        npm_packages is defined and
-        item['global']
+      loop: "{{ npm_packages }}"
+      when:
+        - npm_packages is defined
+        - item.global
 
     - name: Installing NPM Packages
       npm:
-        name: "{{ item['name'] }}"
-        state: "{{ item['state'] }}"
-        global: "{{ item['global'] }}"
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+        global: "{{ item.global }}"
       become: false
       register: result
       until: result is successful
-      with_items: "{{ npm_packages }}"
-      when: >
-        npm_packages is defined and
-        not item['global']
+      loop: "{{ npm_packages }}"
+      when:
+        - npm_packages is defined
+        - not item.global
 
     - name: Installing Python Modules
       pip:
-        name: "{{ item['name'] }}"
-        state: "{{ item['state'] }}"
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
         virtualenv: "{{ lookup('env','HOME') + '/.python-virtualenvs/default' }}"
       register: result
       until: result is successful
-      with_items: "{{ python_modules }}"
+      loop: "{{ python_modules }}"
       when: python_modules is defined
 
     - name: Capturing ATOM Packages
@@ -526,8 +526,8 @@
 
     - name: Installing ATOM Packages
       command: "apm install {{ item }}"
-      with_items: "{{ atom_editor_packages }}"
-      when: item not in _apm_list['stdout']
+      loop: "{{ atom_editor_packages }}"
+      when: item not in _apm_list.stdout
 
     - name: Installing Oh My ZSH
       git:
@@ -551,9 +551,9 @@
       get_url:
         url: https://github.com/powerline/fonts/blob/master/Meslo%20Slashed/Meslo%20LG%20M%20Regular%20for%20Powerline.ttf?raw=true
         dest: $HOME/Library/Fonts/Meslo LG M Regular for Powerline.ttf
-      when: >
-        ansible_os_family == "Darwin" and
-        install_oh_my_zsh|bool
+      when:
+        - ansible_os_family == "Darwin"
+        - install_oh_my_zsh|bool
 
     - name: Installing VS Code Extensions
       shell: cat $HOME/.dotfiles/Code/extensions.list | xargs -L1 code --install-extension

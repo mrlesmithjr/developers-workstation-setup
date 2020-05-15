@@ -1,3 +1,9 @@
+commit f928a39da63cc8f800ed292ed30b49c7d0b7369d
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Thu May 14 22:38:29 2020 -0400
+
+    Updated submodules to latest versions
+
 commit 9ab4b278bff82eba52cd6aeeaa55ee5a1aaf9d3e
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Thu May 14 20:41:11 2020 -0400
