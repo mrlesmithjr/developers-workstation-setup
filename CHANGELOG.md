@@ -1,3 +1,85 @@
+commit 9ab4b278bff82eba52cd6aeeaa55ee5a1aaf9d3e
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Thu May 14 20:41:11 2020 -0400
+
+    Switching to pip-tools to manage Python reqs
+
+commit 7b9292f66ff5cfdf439ec9ffb03663696a4ec603
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Tue Apr 21 14:54:41 2020 -0400
+
+    Replacing KeepassX with KeepassXc
+
+commit d50f892cbd0c742a5fe0ecf97b70176539190849
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Tue Apr 21 14:53:50 2020 -0400
+
+    Added Docker role
+    
+    This will ensure we have Docker installed for usage on Linux
+
+commit e5f72dabe0d3febd47c1fd0d4f4dcbb5cc37c8f8
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Fri Apr 17 01:23:43 2020 -0400
+
+    updated Hashi versions and homebrew packages
+
+commit f442c6a5b8e4c54e776e410bc134ab74f80cbeb5
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Sun Apr 12 01:47:16 2020 -0400
+
+    removed previous submodule
+
+commit d883955ce01a2546abf86c97b81b358484a0f59c
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Tue Mar 10 15:52:01 2020 -0400
+
+    Added: Submodules for new tools
+    
+    GitHub user stats, and GitLab API
+
+commit ca5697f8e2c7e2f6c534f6daaf7bb35f3f508235
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 22:54:09 2020 -0400
+
+    Added: Cookiecutter template tools
+    
+    - Ansible role cookiecutter
+    - Python project cookiecutter
+
+commit f239dcbbf66eac05676f4ba3cb79c45ea8bb4f52
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 22:35:26 2020 -0400
+
+    Added: Info on submodules and tools
+
+commit 321335a97eea1750ca28f1a2d25fb9c9045c8f4b
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 22:27:01 2020 -0400
+
+    Added: Useful tools as submodules
+
+commit 2625259fef9dde1507abe95a655b5535fa96fa43
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 10:39:33 2020 -0400
+
+    Added more logic to ensure existing dotfiles
+    
+    - This new logic will ensure that our dotfiles are in a good state and
+    pointing to the correct location, etc.
+    - Also captures the current branch, stashes any changes, switches to
+    master if not already in master. Executes dotfiles setup, then switches
+    to the original branch if not in master. The pops any stashed changes.
+
+commit 5eff5c20e9ece3a1b65e1572f822011e06d6610b
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Mar 9 10:03:24 2020 -0400
+
+    Added: Time Machine Exclusions setup
+    
+    - Added https://github.com/mrlesmithjr/time_machine_exclusions as
+    submodule. This is also executed and setup if running on macOS.
+
 commit e885634e3aea8c767641c5f0c2866a378a808b56
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Mar 9 09:18:00 2020 -0400
