@@ -48,8 +48,8 @@ brew_cask_packages:
     state: absent
   - name: kodi
     state: absent
-  - name: kustomize
-    state: present
+  # - name: kustomize
+  #   state: present
   - name: lastpass
     state: present
   - name: libreoffice
