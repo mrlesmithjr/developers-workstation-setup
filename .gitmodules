@@ -43,3 +43,6 @@ url = https://github.com/mrlesmithjr/ansible-virtualbox.git
 [submodule "roles/ansible-docker"]
 	path = roles/ansible-docker
 	url = https://github.com/mrlesmithjr/ansible-docker.git
+[submodule "tools/packer-templates-revisited"]
+	path = tools/packer-templates-revisited
+	url = https://github.com/mrlesmithjr/packer-templates-revisited.git
