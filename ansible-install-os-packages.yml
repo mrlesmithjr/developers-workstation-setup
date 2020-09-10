@@ -231,7 +231,7 @@
 
         - name: Adding Brave Browser Repo
           apt_repository:
-            repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ {{ ansible_distribution_release }} main"
+            repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
             state: present
           become: true
           register: result
@@ -240,7 +240,7 @@
 
         - name: Installing Brave Browser
           apt:
-            name: ["brave-browser"]
+            name: brave-browser
             state: present
           become: true
           register: result
