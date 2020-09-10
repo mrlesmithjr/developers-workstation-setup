@@ -68,9 +68,25 @@ else
 	eval "$(pyenv virtualenv-init -)"
 fi
 
-cd "$BUILD_DIR"
-ansible-playbook ansible-install-os-packages.yml -K
-# ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
+# Check for existing Python virtualenv called ansible-system on Linux
+if [[ $(uname) == "Linux" ]]; then
+	# Get current Python version from pyenv
+	CURRENT_PYTHON_VERSION=$(pyenv version | awk '{ print $1 }')
+	pyenv versions | grep ansible-system
+	if [[ $? == 1 ]]; then
+		pyenv global system
+		pyenv virtualenv --system-site-packages ansible-system
+	fi
+	pyenv global ansible-system
+	cd "$BUILD_DIR"
+	ansible-playbook ansible-install-os-packages.yml -K
+	# ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
+	pyenv global $CURRENT_PYTHON_VERSION
+else
+	cd "$BUILD_DIR"
+	ansible-playbook ansible-install-os-packages.yml -K
+	# ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
+fi
 
 # If running on macOS, setup Time Machine Exclusions
 if [[ $(uname) == "Darwin" ]]; then
