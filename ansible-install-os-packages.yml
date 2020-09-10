@@ -192,7 +192,7 @@
         # This should never have to change
         - name: Installing Dropbox Helper Application
           apt:
-            deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
+            deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
           become: true
           register: result
           until: result is successful
