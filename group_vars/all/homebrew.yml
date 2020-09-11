@@ -44,8 +44,8 @@ brew_cask_packages:
     state: present
   - name: keepassxc
     state: present
-  - name: keybase
-    state: absent
+  # - name: keybase
+  #   state: absent
   - name: kodi
     state: absent
   # - name: kustomize
@@ -69,6 +69,8 @@ brew_cask_packages:
   - name: skype
     state: present
   - name: slack
+    state: present
+  - name: snagit
     state: present
   - name: spotify
     state: present
@@ -111,6 +113,8 @@ brew_packages:
   - name: gdbm
     state: present
   - name: git
+    state: present
+  - name: git-crypt
     state: present
   - name: git-lfs
     state: present
