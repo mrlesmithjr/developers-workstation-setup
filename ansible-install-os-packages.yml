@@ -1,24 +1,93 @@
 ---
 - name: Install OS Packages
+  connection: local
   hosts: localhost
-  roles:
-    - role: ansible-hashicorp-toolbox
-      when: ansible_os_family != "Darwin"
-    - role: ansible-docker
-      when: >
-        (ansible_os_family == "Debian" or
-        ansible_distribution == "Fedora" or
-        ansible_os_family == "Archlinux"or
-        ansible_os_family == "elementary OS") and
-        ansible_virtualization_role != "guest"
-    - role: ansible-virtualbox
-      when: >
-        (ansible_os_family == "Debian" or
-        ansible_distribution == "Fedora" or
-        ansible_os_family == "Archlinux"or
-        ansible_os_family == "elementary OS") and
-        ansible_virtualization_role != "guest"
-  pre_tasks:
+  vars:
+    arch_packages_install: []
+    arch_packages_uninstall: []
+    brew_cask_packages_install: []
+    brew_cask_packages_uninstall: []
+    brew_packages_install: []
+    brew_packages_uninstall: []
+    debian_packages_install: []
+    debian_packages_uninstall: []
+    gem_packages_install: []
+    gem_packages_uninstall: []
+    redhat_packages_install: []
+    redhat_packages_uninstall: []
+  tasks:
+    - name: Define Arch Packages to Install
+      set_fact:
+        arch_packages_install: "{{ arch_packages_install }} + ['{{ item.name }}']"
+      loop: "{{ arch_packages }}"
+      when: item.state|lower == "present"
+
+    - name: Define Arch Packages to Uninstall
+      set_fact:
+        arch_packages_uninstall: "{{ arch_packages_uninstall }} + ['{{ item.name }}']"
+      loop: "{{ arch_packages }}"
+      when: item.state|lower == "absent"
+
+    - name: Define Homebrew Cask Packages to Install
+      set_fact:
+        brew_cask_packages_install: "{{ brew_cask_packages_install }} + ['{{ item.name }}']"
+      loop: "{{ brew_cask_packages }}"
+      when: item.state|lower == "present"
+
+    - name: Define Homebrew Cask Packages to Uninstall
+      set_fact:
+        brew_cask_packages_uninstall: "{{ brew_cask_packages_uninstall }} + ['{{ item.name }}']"
+      loop: "{{ brew_cask_packages }}"
+      when: item.state|lower == "absent"
+
+    - name: Define Homebrew Packages to Install
+      set_fact:
+        brew_packages_install: "{{ brew_packages_install }} + ['{{ item.name }}']"
+      loop: "{{ brew_packages }}"
+      when: item.state|lower == "present"
+
+    - name: Define Homebrew Packages to Uninstall
+      set_fact:
+        brew_packages_uninstall: "{{ brew_packages_uninstall }} + ['{{ item.name }}']"
+      loop: "{{ brew_packages }}"
+      when: item.state|lower == "absent"
+
+    - name: Define Debian Packages to Install
+      set_fact:
+        debian_packages_install: "{{ debian_packages_install }} + ['{{ item.name }}']"
+      loop: "{{ debian_packages }}"
+      when: item.state|lower == "present"
+
+    - name: Define Debian Packages to Uninstall
+      set_fact:
+        debian_packages_uninstall: "{{ debian_packages_uninstall }} + ['{{ item.name }}']"
+      loop: "{{ debian_packages }}"
+      when: item.state|lower == "absent"
+
+    - name: Define RedHat Packages to Install
+      set_fact:
+        redhat_packages_install: "{{ redhat_packages_install }} + ['{{ item.name }}']"
+      loop: "{{ redhat_packages }}"
+      when: item.state|lower == "present"
+
+    - name: Define RedHat Packages to Uninstall
+      set_fact:
+        redhat_packages_uninstall: "{{ redhat_packages_uninstall }} + ['{{ item.name }}']"
+      loop: "{{ redhat_packages }}"
+      when: item.state|lower == "absent"
+
+    - name: Define Ruby Gems to Install
+      set_fact:
+        gem_packages_install: "{{ gem_packages_install }} + ['{{ item.name }}']"
+      loop: "{{ gem_packages }}"
+      when: item.state|lower == "present"
+
+    - name: Define Ruby Gems to Uninstall
+      set_fact:
+        gem_packages_uninstall: "{{ gem_packages_uninstall }} + ['{{ item.name }}']"
+      loop: "{{ gem_packages }}"
+      when: item.state|lower == "absent"
+
     - block:
         - name: Upgrading OS Packages
           pacman:
@@ -30,12 +99,19 @@
 
         - name: Installing OS Packages
           pacman:
-            name: "{{ item.name }}"
-            state: "{{ item.state }}"
+            name: "{{ arch_packages_install }}"
+            state: present
           become: true
           register: result
           until: result is successful
-          loop: "{{ arch_packages }}"
+
+        - name: Uninstalling OS Packages
+          pacman:
+            name: "{{ arch_packages_uninstall }}"
+            state: absent
+          become: true
+          register: result
+          until: result is successful
 
       when: ansible_os_family == "Archlinux"
 
@@ -62,7 +138,31 @@
 
       when: ansible_os_family == "Darwin"
 
-  tasks:
+    - name: ansible-hashicorp-toolbox
+      include_role:
+        name: ansible-hashicorp-toolbox
+      when: ansible_os_family not in ['Darwin']
+
+    - name: ansible-docker
+      include_role:
+        name: ansible-docker
+      when: >
+        (ansible_os_family == "Debian" or
+        ansible_distribution == "Fedora" or
+        ansible_os_family == "Archlinux" or
+        ansible_os_family == "elementary OS") and
+        ansible_virtualization_role != "guest"
+
+    - name: ansible-virtualbox
+      include_role:
+        name: ansible-virtualbox
+      when: >
+        (ansible_os_family == "Debian" or
+        ansible_distribution == "Fedora" or
+        ansible_os_family == "Archlinux" or
+        ansible_os_family == "elementary OS") and
+        ansible_virtualization_role != "guest"
+
     - block:
         - name: Updating Homebrew
           homebrew:
@@ -89,20 +189,34 @@
 
         - name: Installing Homebrew Cask Packages
           homebrew_cask:
-            name: "{{ item.name }}"
-            state: "{{ item.state }}"
+            name: "{{ brew_cask_packages_install }}"
+            state: present
           register: result
           until: result is successful
-          loop: "{{ brew_cask_packages }}"
+          when: homebrew_check.stat.exists
+
+        - name: Uninstall Homebrew Cask Packages
+          homebrew_cask:
+            name: "{{ brew_cask_packages_uninstall }}"
+            state: absent
+          register: result
+          until: result is successful
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Packages
           homebrew:
-            name: "{{ item.name }}"
-            state: "{{ item.state }}"
+            name: "{{ brew_packages_install }}"
+            state: present
           register: result
           until: result is successful
-          loop: "{{ brew_packages }}"
+          when: homebrew_check.stat.exists
+
+        - name: Uninstall Homebrew Packages
+          homebrew:
+            name: "{{ brew_packages_uninstall }}"
+            state: absent
+          register: result
+          until: result is successful
           when: homebrew_check.stat.exists
 
       when: ansible_os_family == "Darwin"
@@ -110,7 +224,8 @@
     - block:
         - name: Ensuring Initial Pre-Reqs Are Installed
           apt:
-            name: ["apt-transport-https"]
+            name:
+              - apt-transport-https
             state: present
           become: true
           register: result
@@ -151,12 +266,19 @@
 
         - name: Installing OS Packages
           apt:
-            name: "{{ item.name }}"
-            state: "{{ item.state }}"
+            name: "{{ debian_packages_install }}"
+            state: present
           become: true
           register: result
           until: result is successful
-          loop: "{{ debian_packages }}"
+
+        - name: Uninstalling OS Packages
+          apt:
+            name: "{{ debian_packages_uninstall }}"
+            state: absent
+          become: true
+          register: result
+          until: result is successful
 
         - name: Installing fonts-firacode
           apt:
@@ -286,7 +408,8 @@
 
         - name: Installing Postman Pre-Reqs
           apt:
-            name: ["libgconf-2-4"]
+            name:
+              - libgconf-2-4
             state: present
           become: true
           register: result
@@ -314,9 +437,7 @@
             mode: u=rw,g=r,o=r
           become: true
 
-      when: >
-        ansible_os_family == "Debian" or
-        ansible_os_family == "elementary OS"
+      when: ansible_os_family in ["Debian", "elementary OS"]
 
     - block:
         - name: Adding Dropbox Repo
@@ -353,12 +474,19 @@
 
         - name: Installing OS Packages
           yum:
-            name: "{{ item.name }}"
-            state: "{{ item.state }}"
+            name: "{{ redhat_packages_install }}"
+            state: present
           become: true
           register: result
           until: result is successful
-          loop: "{{ redhat_packages }}"
+
+        - name: Uninstalling OS Packages
+          yum:
+            name: "{{ redhat_packages_uninstall }}"
+            state: absent
+          become: true
+          register: result
+          until: result is successful
 
         - name: Installing ATOM Editor
           yum:
@@ -419,12 +547,19 @@
 
         - name: Installing OS Packages
           dnf:
-            name: "{{ item.name }}"
-            state: "{{ item.state }}"
+            name: "{{ redhat_packages_install }}"
+            state: present
           become: true
           register: result
           until: result is successful
-          loop: "{{ redhat_packages }}"
+
+        - name: Uninstalling OS Packages
+          dnf:
+            name: "{{ redhat_packages_uninstall }}"
+            state: absent
+          become: true
+          register: result
+          until: result is successful
 
         - name: Installing ATOM Editor
           dnf:
@@ -480,8 +615,6 @@
       register: result
       until: result is successful
       loop: "{{ gem_packages }}"
-      when:
-        - gem_packages is defined
 
     - name: Installing NPM Packages
       npm:
@@ -508,16 +641,6 @@
       when:
         - npm_packages is defined
         - not item.global
-
-    - name: Installing Python Modules
-      pip:
-        name: "{{ item.name }}"
-        state: "{{ item.state }}"
-        virtualenv: "{{ lookup('env','HOME') + '/.python-virtualenvs/default' }}"
-      register: result
-      until: result is successful
-      loop: "{{ python_modules }}"
-      when: python_modules is defined
 
     - name: Capturing ATOM Packages
       shell: apm list | awk '{ print $2 }'
