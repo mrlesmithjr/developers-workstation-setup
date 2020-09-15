@@ -122,6 +122,8 @@ brew_packages:
     state: present
   - name: jq
     state: present
+  - name: kind
+    state: present
   - name: krew
     state: present
   - name: kubernetes-helm
@@ -138,6 +140,8 @@ brew_packages:
   - name: npm
     state: present
   - name: nomad
+    state: present
+  - name: octant
     state: present
   - name: openssl
     state: present
