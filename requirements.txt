@@ -4,16 +4,16 @@
 #
 #    pip-compile
 #
-ansible==2.9.9            # via -r requirements.in
-cffi==1.14.0              # via cryptography
+ansible==2.9.13           # via -r requirements.in
+cffi==1.14.2              # via cryptography
 click==7.1.2              # via pip-tools
-cryptography==2.9.2       # via ansible
+cryptography==3.1         # via ansible
 jinja2==2.11.2            # via ansible
 markupsafe==1.1.1         # via jinja2
-pip-tools==5.1.2          # via -r requirements.in
+pip-tools==5.3.1          # via -r requirements.in
 pycparser==2.20           # via cffi
 pyyaml==5.3.1             # via ansible
-six==1.14.0               # via cryptography, pip-tools
+six==1.15.0               # via cryptography, pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
