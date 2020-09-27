@@ -96,9 +96,13 @@ brew_cask_packages:
 brew_packages:
   - name: apm-bash-completion
     state: present
+  - name: asciinema
+    state: present
   - name: bash-completion
     state: present
   - name: bash-git-prompt
+    state: present
+  - name: bat
     state: present
   - name: consul
     state: present
@@ -111,6 +115,8 @@ brew_packages:
   - name: gcc
     state: present
   - name: gdbm
+    state: present
+  - name: gh
     state: present
   - name: git
     state: present
@@ -135,6 +141,8 @@ brew_packages:
     state: absent
   - name: mysql
     state: present
+  - name: ncdu
+    state: present
   - name: nmap
     state: present
   - name: npm
@@ -154,6 +162,8 @@ brew_packages:
   - name: pass
     state: present
   - name: pip-completion
+    state: present
+  - name: podman
     state: present
   - name: postgres
     state: absent
