@@ -82,12 +82,10 @@ if [[ $(uname) == "Linux" ]]; then
 	pip-sync "$DOTFILES_DIR/requirements.txt"
 	cd "$BUILD_DIR"
 	ansible-playbook ansible-install-os-packages.yml -K
-	# ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
 	pyenv global $CURRENT_PYTHON_VERSION
 else
 	cd "$BUILD_DIR"
 	ansible-playbook ansible-install-os-packages.yml -K
-	# ansible-playbook "$DOTFILES_DIR"/install/macos_defaults.yml
 fi
 
 # If running on macOS, setup Time Machine Exclusions
