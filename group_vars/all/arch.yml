@@ -2,6 +2,8 @@
 arch_packages:
   - name: atom
     state: present
+  - name: bat
+    state: present
   - name: chromium
     state: present
   - name: code

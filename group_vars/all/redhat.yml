@@ -1,5 +1,7 @@
 ---
 redhat_packages:
+  - name: bat
+    state: present
   - name: ShellCheck
     state: present
   - name: golang
