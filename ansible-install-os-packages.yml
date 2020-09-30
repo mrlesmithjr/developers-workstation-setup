@@ -145,12 +145,7 @@
     - name: ansible-docker
       include_role:
         name: ansible-docker
-      when: >
-        (ansible_os_family == "Debian" or
-        ansible_distribution == "Fedora" or
-        ansible_os_family == "Archlinux" or
-        ansible_os_family == "elementary OS") and
-        ansible_virtualization_role != "guest"
+      when: ansible_os_family in ["ArchLinux", "Debian", "elementary OS", "RedHat"]
 
     - name: ansible-virtualbox
       include_role:
