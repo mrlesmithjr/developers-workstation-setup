@@ -104,8 +104,6 @@ brew_packages:
     state: present
   - name: bat
     state: present
-  - name: consul
-    state: present
   - name: docker-completion
     state: present
   - name: docker-compose-completion
@@ -125,6 +123,18 @@ brew_packages:
   - name: git-lfs
     state: present
   - name: go
+    state: present
+  - name: hashicorp/tap/boundary
+    state: present
+  - name: hashicorp/tap/consul
+    state: present
+  - name: hashicorp/tap/nomad
+    state: present
+  - name: hashicorp/tap/packer
+    state: present
+  - name: hashicorp/tap/vault
+    state: present
+  - name: hashicorp/tap/waypoint
     state: present
   - name: jq
     state: present
@@ -147,13 +157,9 @@ brew_packages:
     state: present
   - name: npm
     state: present
-  - name: nomad
-    state: present
   - name: octant
     state: present
   - name: openssl
-    state: present
-  - name: packer
     state: present
   - name: packer-completion
     state: present
@@ -191,8 +197,6 @@ brew_packages:
     state: present
   - name: vagrant-completion
     state: present
-  - name: vault
-    state: present
   - name: vim
     state: present
   - name: watch
@@ -208,6 +212,8 @@ brew_packages:
 
 brew_taps:
   - name: homebrew/cask-fonts
+    state: present
+  - name: hashicorp/tap
     state: present
 
 install_homebrew_if_missing: true
