@@ -7,7 +7,7 @@
 ansible==2.9.13           # via -r requirements.in
 cffi==1.14.2              # via cryptography
 click==7.1.2              # via pip-tools
-cryptography==3.1         # via ansible
+cryptography==3.2         # via ansible
 jinja2==2.11.2            # via ansible
 markupsafe==1.1.1         # via jinja2
 pip-tools==5.3.1          # via -r requirements.in
