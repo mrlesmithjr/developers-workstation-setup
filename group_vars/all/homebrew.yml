@@ -34,7 +34,7 @@ brew_cask_packages:
     state: present
   - name: google-chrome
     state: present
-  - name: gpg-suite
+  - name: gpg-suite-no-mail
     state: present
   - name: hyper
     state: present
