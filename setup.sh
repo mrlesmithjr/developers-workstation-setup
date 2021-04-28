@@ -19,34 +19,34 @@ if [ ! -d "$DOTFILES_DIR" ]; then
 	git config --global user.name ""
 	git config --global user.email ""
 else
-	if [ -f "$DOTFILES_DIR/install/setup.sh" ]; then
-		mv "$DOTFILES_DIR" "$DOTFILES_DIR.orig"
-		git clone "$DOTFILES_REPO" "$DOTFILES_DIR" --recurse-submodules
-		# shellcheck source=/dev/null
-		source "$DOTFILES_DIR/install"
-		git config --global user.name ""
-		git config --global user.email ""
-	else
+# 	if [ -f "$DOTFILES_DIR/install/setup.sh" ]; then
+# 		mv "$DOTFILES_DIR" "$DOTFILES_DIR.orig"
+# 		git clone "$DOTFILES_REPO" "$DOTFILES_DIR" --recurse-submodules
+# 		# shellcheck source=/dev/null
+# 		source "$DOTFILES_DIR/install"
+# 		git config --global user.name ""
+# 		git config --global user.email ""
+# 	else
 		cd "$DOTFILES_DIR"
-		git stash
-		git remote remove origin
-		git remote add origin "$DOTFILES_REPO"
-		CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-		if [[ "$CURRENT_BRANCH" != "master" ]]; then
-			git checkout master
-		fi
+# 		git stash
+# 		git remote remove origin
+# 		git remote add origin "$DOTFILES_REPO"
+# 		CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+# 		if [[ "$CURRENT_BRANCH" != "master" ]]; then
+# 			git checkout master
+# 		fi
 		git fetch
-		git branch --set-upstream-to=origin/master master
+# 		git branch --set-upstream-to=origin/master master
 		git pull
 		git submodule update --remote --recursive
-		# shellcheck source=/dev/null
+# 		# shellcheck source=/dev/null
 		source "$DOTFILES_DIR/install"
 		cd "$DOTFILES_DIR"
-		if [[ "$CURRENT_BRANCH" != "master" ]]; then
-			git checkout "$CURRENT_BRANCH"
-		fi
-		git stash pop
-	fi
+# 		if [[ "$CURRENT_BRANCH" != "master" ]]; then
+# 			git checkout "$CURRENT_BRANCH"
+# 		fi
+# 		git stash pop
+# 	fi
 fi
 
 PYENV_ROOT="$HOME/.pyenv"
