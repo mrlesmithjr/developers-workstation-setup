@@ -96,8 +96,8 @@ brew_cask_packages:
 brew_packages:
   # - name: apm-bash-completion
   #   state: present
-  - name: asciinema
-    state: present
+  # - name: asciinema
+  #   state: present
   - name: bash-completion
     state: present
   - name: bash-git-prompt
