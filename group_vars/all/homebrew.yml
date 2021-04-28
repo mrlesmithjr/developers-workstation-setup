@@ -94,8 +94,8 @@ brew_cask_packages:
     state: present
 
 brew_packages:
-  - name: apm-bash-completion
-    state: present
+  # - name: apm-bash-completion
+  #   state: present
   - name: asciinema
     state: present
   - name: bash-completion
