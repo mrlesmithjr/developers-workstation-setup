@@ -15,7 +15,7 @@ DOTFILES_REPO="https://github.com/mrlesmithjr/dotfiles.git"
 if [ ! -d "$DOTFILES_DIR" ]; then
 	git clone "$DOTFILES_REPO" "$DOTFILES_DIR" --recurse-submodules
 	# shellcheck source=/dev/null
-	source "$DOTFILES_DIR/setup.sh"
+	source "$DOTFILES_DIR/install"
 	git config --global user.name ""
 	git config --global user.email ""
 else
@@ -23,7 +23,7 @@ else
 		mv "$DOTFILES_DIR" "$DOTFILES_DIR.orig"
 		git clone "$DOTFILES_REPO" "$DOTFILES_DIR" --recurse-submodules
 		# shellcheck source=/dev/null
-		source "$DOTFILES_DIR/setup.sh"
+		source "$DOTFILES_DIR/install"
 		git config --global user.name ""
 		git config --global user.email ""
 	else
@@ -40,7 +40,7 @@ else
 		git pull
 		git submodule update --remote --recursive
 		# shellcheck source=/dev/null
-		source "$DOTFILES_DIR/setup.sh"
+		source "$DOTFILES_DIR/install"
 		cd "$DOTFILES_DIR"
 		if [[ "$CURRENT_BRANCH" != "master" ]]; then
 			git checkout "$CURRENT_BRANCH"
