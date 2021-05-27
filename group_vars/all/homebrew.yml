@@ -1,5 +1,9 @@
 ---
 brew_cask_packages:
+  - name: 1password
+    state: present
+  - name: 1password-cli
+    state: present
   - name: adobe-acrobat-reader
     state: present
   - name: adoptopenjdk
