@@ -19,34 +19,13 @@ if [ ! -d "$DOTFILES_DIR" ]; then
 	git config --global user.name ""
 	git config --global user.email ""
 else
-# 	if [ -f "$DOTFILES_DIR/install/setup.sh" ]; then
-# 		mv "$DOTFILES_DIR" "$DOTFILES_DIR.orig"
-# 		git clone "$DOTFILES_REPO" "$DOTFILES_DIR" --recurse-submodules
-# 		# shellcheck source=/dev/null
-# 		source "$DOTFILES_DIR/install"
-# 		git config --global user.name ""
-# 		git config --global user.email ""
-# 	else
 		cd "$DOTFILES_DIR"
-# 		git stash
-# 		git remote remove origin
-# 		git remote add origin "$DOTFILES_REPO"
-# 		CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-# 		if [[ "$CURRENT_BRANCH" != "master" ]]; then
-# 			git checkout master
-# 		fi
 		git fetch
-# 		git branch --set-upstream-to=origin/master master
 		git pull
 		git submodule update --remote --recursive
-# 		# shellcheck source=/dev/null
+		# shellcheck source=/dev/null
 		source "$DOTFILES_DIR/install"
 		cd "$DOTFILES_DIR"
-# 		if [[ "$CURRENT_BRANCH" != "master" ]]; then
-# 			git checkout "$CURRENT_BRANCH"
-# 		fi
-# 		git stash pop
-# 	fi
 fi
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -60,14 +39,12 @@ if [ ! -d "$PYENV_ROOT" ]; then
 	pyenv global "$DEFAULT_PYTHON_VERSION"
 	eval "$(pyenv init --path)"
 	eval "$(pyenv init -)"
-	# eval "$(pyenv virtualenv-init -)"
 	pip install --upgrade pip pip-tools
 	pip-sync "$DOTFILES_DIR/requirements.txt"
 else
 	export PATH="$PYENV_ROOT/bin:$PATH"
 	eval "$(pyenv init --path)"
 	eval "$(pyenv init -)"
-	# eval "$(pyenv virtualenv-init -)"
 fi
 
 # Check for existing Python virtualenv called ansible-system on Linux
