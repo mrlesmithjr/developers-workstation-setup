@@ -52,7 +52,7 @@ if [[ $(uname) == "Linux" ]]; then
 	# Get current Python version from pyenv
 	CURRENT_PYTHON_VERSION=$(pyenv version | awk '{ print $1 }')
 	pyenv versions | grep ansible-system
-	if [[ $? == 1 ]]; then
+	if [ $? -eq 1 ]; then
 		pyenv global system
 		pyenv virtualenv --system-site-packages ansible-system
 	fi
