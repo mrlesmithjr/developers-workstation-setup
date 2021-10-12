@@ -57,8 +57,8 @@ if [[ $(uname) == "Linux" ]]; then
 		pyenv virtualenv --system-site-packages ansible-system
 	fi
 	pyenv global ansible-system
-	pip install --upgrade pip pip-tools
-	pip-sync "$DOTFILES_DIR/requirements.txt"
+	pip3 install --upgrade pip
+	pip3 install -r "$DOTFILES_DIR/requirements.txt"
 	cd "$BUILD_DIR"
 	ansible-playbook ansible-install-os-packages.yml -K
 	pyenv global $CURRENT_PYTHON_VERSION
