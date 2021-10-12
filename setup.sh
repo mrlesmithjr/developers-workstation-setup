@@ -18,14 +18,14 @@ if [ ! -d "$DOTFILES_DIR" ]; then
 	source "$DOTFILES_DIR/install"
 	git config --global user.name ""
 	git config --global user.email ""
-else
-		cd "$DOTFILES_DIR"
-		git fetch
-		git pull
-		git submodule update --remote --recursive
-		# shellcheck source=/dev/null
-		source "$DOTFILES_DIR/install"
-		cd "$DOTFILES_DIR"
+# else
+# 		cd "$DOTFILES_DIR"
+# 		git fetch
+# 		git pull
+# 		git submodule update --remote --recursive
+# 		# shellcheck source=/dev/null
+# 		source "$DOTFILES_DIR/install"
+# 		cd "$DOTFILES_DIR"
 fi
 
 export PYENV_ROOT="$HOME/.pyenv"
