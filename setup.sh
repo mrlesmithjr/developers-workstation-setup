@@ -40,7 +40,7 @@ if [ ! -d "$PYENV_ROOT" ]; then
 	eval "$(pyenv init --path)"
 	eval "$(pyenv init -)"
 	pip install --upgrade pip pip-tools
-	pip-sync "$DOTFILES_DIR/requirements.txt"
+	pip-sync "$DOTFILES_DIR/requirements.txt" "$DOTFILES_DIR/requirements-dev.txt"
 else
 	export PATH="$PYENV_ROOT/bin:$PATH"
 	eval "$(pyenv init --path)"
@@ -58,7 +58,7 @@ if [[ $(uname) == "Linux" ]]; then
 	fi
 	pyenv global ansible-system
 	pip3 install --upgrade pip
-	pip3 install -r "$DOTFILES_DIR/requirements.txt"
+	pip3 install -r "$DOTFILES_DIR/requirements.txt" -r "$DOTFILES_DIR/requirements-dev.txt"
 	cd "$BUILD_DIR"
 	ansible-playbook ansible-install-os-packages.yml -K
 	pyenv global $CURRENT_PYTHON_VERSION
