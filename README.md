@@ -25,10 +25,10 @@ git clone https://github.com/mrlesmithjr/developers-workstation-setup.git --recu
 
 ### Setup
 
-Next you will need to kick-off the setup script. Which will do the following:
+Next, you will need to kick off the setup script. Which will do the following:
 
-- Setup [dotfiles](https://github.com/mrlesmithjr/dotfiles)
-- Kick of Ansible [playbook](ansible-install-os-packages.yml)
+- Setup [dotfiles]
+- Kick-off Ansible [playbook](ansible-install-os-packages.yml)
 - Setup [time machine exclusions](https://github.com/mrlesmithjr/time_machine_exclusions)
 
 ```bash
@@ -45,8 +45,7 @@ you wish by [updating submodules](#updating-submodules).
 
 ### Updating Submodules
 
-Because there are many different components within this repository that are
-submodules. They may over time become out of date. You can update them by
+Because many different components within this repository are submodules. They may over time become out of date. You can update them by
 executing the following:
 
 ```bash

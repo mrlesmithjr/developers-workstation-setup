@@ -4,209 +4,223 @@ brew_cask_packages:
     state: present
   - name: 1password-cli
     state: present
-  - name: adobe-acrobat-reader
-    state: present
-  - name: adoptopenjdk
-    state: present
-  - name: atom
-    state: absent
+  # - name: adobe-acrobat-reader
+  #   state: present
+  # - name: adoptopenjdk
+  #   state: present
+  # - name: atom
+  #   state: absent
   - name: authy
     state: present
-  - name: azure-data-studio
-    state: absent
+  # - name: azure-data-studio
+  #   state: absent
   - name: balenaetcher
     state: present
-  - name: bitwarden
-    state: absent
-  - name: brave-browser
-    state: absent
-  - name: cyberduck
-    state: absent
-  - name: db-browser-for-sqlite
-    state: present
+  # - name: bitwarden
+  #   state: absent
+  # - name: brave-browser
+  #   state: absent
+  # - name: cyberduck
+  #   state: absent
+  # - name: db-browser-for-sqlite
+  #   state: present
   - name: docker
     state: present
   - name: dropbox
     state: present
   - name: firefox
     state: present
-  - name: font-fira-code
-    state: present
-  - name: gimp
-    state: absent
-  - name: google-backup-and-sync
-    state: absent
+  # - name: font-fira-code
+  #   state: present
+  # - name: gimp
+  #   state: absent
+  # - name: google-backup-and-sync
+  #   state: absent
   - name: google-chrome
     state: present
   - name: google-drive
     state: present
   - name: gpg-suite-no-mail
     state: present
-  - name: hyper
-    state: absent
+  # - name: hyper
+  #   state: absent
   - name: idrive
-    state: absent
+    state: present
   - name: iterm2
     state: present
-  - name: keepassxc
-    state: present
-  - name: kodi
-    state: absent
-  - name: lastpass
-    state: absent
-  - name: libreoffice
-    state: absent
+  # - name: keepassxc
+  #   state: present
+  # - name: kodi
+  #   state: absent
+  # - name: lastpass
+  #   state: absent
+  # - name: libreoffice
+  #   state: absent
   - name: microsoft-office
     state: present
-  - name: postman
+  - name: microsoft-teams
     state: present
-  - name: powershell
-    state: absent
-  - name: royal-tsx
-    state: absent
-  - name: sentinel
-    state: absent
-  - name: sequel-pro
+  - name: obsidian
     state: present
-  - name: skype
-    state: present
+  # - name: parallels
+  #   state: present
+  # - name: parallels-toolbox
+  #   state: present
+  # - name: parallels-virtualization-sdk
+  #   state: present
+  # - name: postman
+  #   state: present
+  # - name: powershell
+  #   state: absent
+  # - name: royal-tsx
+  #   state: absent
+  # - name: sentinel
+  #   state: absent
+  # - name: sequel-pro
+  #   state: present
+  # - name: skype
+  #   state: present
   - name: slack
     state: present
-  - name: snagit
-    state: absent
-  - name: spotify
-    state: present
-  - name: tigervnc-viewer
-    state: absent
-  - name: unetbootin
-    state: present
+  # - name: snagit
+  #   state: absent
+  # - name: spotify
+  #   state: present
+  # - name: tigervnc-viewer
+  #   state: absent
+  # - name: unetbootin
+  #   state: present
   - name: vagrant
     state: present
-  - name: vagrant-vmware-utility
-    state: present
-  - name: virtualbox
-    state: present
-  - name: virtualbox-extension-pack
-    state: present
+  # - name: vagrant-vmware-utility
+  #   state: present
+  # - name: virtualbox
+  #   state: present
+  # - name: virtualbox-extension-pack
+  #   state: present
   - name: visual-studio-code
     state: present
-  - name: vmware-fusion
-    state: present
-  - name: vnc-viewer
-    state: present
+  # - name: vmware-fusion
+  #   state: present
+  # - name: vnc-viewer
+  #   state: present
 
 brew_packages:
-  - name: apm-bash-completion
-    state: present
-  - name: asciinema
-    state: absent
-  - name: bash-completion
-    state: present
-  - name: bash-git-prompt
-    state: present
-  - name: bat
-    state: absent
-  - name: docker-completion
-    state: present
-  - name: docker-compose-completion
-    state: present
-  - name: flint-checker
-    state: present
-  - name: gcc
-    state: present
-  - name: gdbm
-    state: present
-  - name: gh
-    state: absent
+  # - name: apm-bash-completion
+  #   state: present
+  # - name: asciinema
+  #   state: absent
+  # - name: bash-completion
+  #   state: present
+  # - name: bash-git-prompt
+  #   state: present
+  # - name: bat
+  #   state: absent
+  # - name: docker-completion
+  #   state: present
+  # - name: docker-compose-completion
+  #   state: present
+  # - name: flint-checker
+  #   state: present
+  # - name: gcc
+  #   state: present
+  # - name: gdbm
+  #   state: present
+  # - name: gh
+  #   state: absent
   - name: git
     state: present
   - name: git-crypt
     state: present
   - name: git-lfs
     state: present
-  - name: go
-    state: absent
-  - name: hashicorp/tap/boundary
-    state: absent
-  - name: hashicorp/tap/consul
-    state: absent
-  - name: hashicorp/tap/nomad
-    state: absent
-  - name: hashicorp/tap/packer
+  # - name: go
+  #   state: absent
+  - name: hadolint
     state: present
-  - name: hashicorp/tap/vault
-    state: absent
-  - name: hashicorp/tap/waypoint
-    state: absent
+  # - name: hashicorp/tap/boundary
+  #   state: absent
+  # - name: hashicorp/tap/consul
+  #   state: absent
+  # - name: hashicorp/tap/nomad
+  #   state: absent
+  # - name: hashicorp/tap/packer
+  #   state: present
+  # - name: hashicorp/tap/vault
+  #   state: absent
+  # - name: hashicorp/tap/waypoint
+  #   state: absent
   - name: jq
     state: present
-  - name: kind
+  # - name: kind
+  #   state: present
+  # - name: krew
+  #   state: present
+  # - name: kubectx
+  #   state: present
+  # - name: kubernetes-helm
+  #   state: present
+  #   # Provides drill. dig replacement
+  # - name: ldns
+  #   state: absent
+  # - name: libvirt
+  #   state: absent
+  # - name: mysql
+  #   state: absent
+  # - name: ncdu
+  #   state: present
+  # - name: nmap
+  #   state: present
+  # - name: npm
+  #   state: present
+  # - name: octant
+  #   state: present
+  # - name: openssl
+  #   state: present
+  - name: packer
     state: present
-  - name: krew
-    state: present
-  - name: kubectx
-    state: present
-  - name: kubernetes-helm
-    state: present
-    # Provides drill. dig replacement
-  - name: ldns
-    state: absent
-  - name: libvirt
-    state: absent
-  - name: mysql
-    state: absent
-  - name: ncdu
-    state: present
-  - name: nmap
-    state: present
-  - name: npm
-    state: present
-  - name: octant
-    state: present
-  - name: openssl
-    state: present
-  - name: packer-completion
-    state: present
+  # - name: packer-completion
+  #   state: present
   - name: pandoc
     state: present
-  - name: pass
-    state: absent
-  - name: pip-completion
-    state: present
-  - name: podman
-    state: absent
-  - name: postgres
-    state: absent
-  - name: python
-    state: present
-  - name: qemu
-    state: absent
-  - name: rancher-compose
-    state: absent
-  - name: readline
-    state: present
-  - name: redis
-    state: absent
+  # - name: pass
+  #   state: absent
+  # - name: pip-completion
+  #   state: present
+  # - name: podman
+  #   state: absent
+  # - name: postgres
+  #   state: absent
+  # - name: python
+  #   state: present
+  # - name: qemu
+  #   state: absent
+  # - name: rancher-compose
+  #   state: absent
+  # - name: readline
+  #   state: present
+  # - name: redis
+  #   state: absent
   - name: shellcheck
     state: present
-  - name: ssh-copy-id
-    state: present
-  - name: terraform
-    state: absent
-  - name: tfenv
-    state: present
-  - name: tmux
-    state: absent
+  # - name: ssh-copy-id
+  #   state: present
+  # - name: terraform
+  #   state: absent
+  # - name: tfenv
+  #   state: present
+  # - name: tmux
+  #   state: absent
   - name: tree
     state: present
-  - name: vagrant-completion
-    state: present
+  # - name: vagrant-completion
+  #   state: present
   - name: vim
     state: present
-  - name: watch
-    state: present
-  - name: wget
-    state: present
+  # - name: watch
+  #   state: present
+  # - name: wget
+  #   state: present
   - name: zsh
     state: present
   - name: zsh-autosuggestions

@@ -61,7 +61,7 @@ if [[ $(uname) == "Linux" ]]; then
 	pip3 install -r "$DOTFILES_DIR/requirements.txt" -r "$DOTFILES_DIR/requirements-dev.txt"
 	cd "$BUILD_DIR"
 	ansible-playbook ansible-install-os-packages.yml -K
-	pyenv global $CURRENT_PYTHON_VERSION
+	pyenv global "$CURRENT_PYTHON_VERSION"
 else
 	cd "$BUILD_DIR"
 	ansible-playbook ansible-install-os-packages.yml -K
