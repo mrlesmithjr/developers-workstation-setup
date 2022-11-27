@@ -17,80 +17,82 @@
     redhat_packages_uninstall: []
   tasks:
     - name: Define Arch Packages to Install
-      set_fact:
+      ansible.builtin.set_fact:
         arch_packages_install: "{{ arch_packages_install }} + ['{{ item.name }}']"
       loop: "{{ arch_packages }}"
-      when: item.state|lower == "present"
+      when: item.state | lower == "present"
 
     - name: Define Arch Packages to Uninstall
-      set_fact:
+      ansible.builtin.set_fact:
         arch_packages_uninstall: "{{ arch_packages_uninstall }} + ['{{ item.name }}']"
       loop: "{{ arch_packages }}"
-      when: item.state|lower == "absent"
+      when: item.state | lower == "absent"
 
     - name: Define Homebrew Cask Packages to Install
-      set_fact:
+      ansible.builtin.set_fact:
         brew_cask_packages_install: "{{ brew_cask_packages_install }} + ['{{ item.name }}']"
       loop: "{{ brew_cask_packages }}"
-      when: item.state|lower == "present"
+      when: item.state | lower == "present"
 
     - name: Define Homebrew Cask Packages to Uninstall
-      set_fact:
+      ansible.builtin.set_fact:
         brew_cask_packages_uninstall: "{{ brew_cask_packages_uninstall }} + ['{{ item.name }}']"
       loop: "{{ brew_cask_packages }}"
-      when: item.state|lower == "absent"
+      when: item.state | lower == "absent"
 
     - name: Define Homebrew Packages to Install
-      set_fact:
+      ansible.builtin.set_fact:
         brew_packages_install: "{{ brew_packages_install }} + ['{{ item.name }}']"
       loop: "{{ brew_packages }}"
-      when: item.state|lower == "present"
+      when: item.state | lower == "present"
 
     - name: Define Homebrew Packages to Uninstall
-      set_fact:
+      ansible.builtin.set_fact:
         brew_packages_uninstall: "{{ brew_packages_uninstall }} + ['{{ item.name }}']"
       loop: "{{ brew_packages }}"
-      when: item.state|lower == "absent"
+      when: item.state | lower == "absent"
 
     - name: Define Debian Packages to Install
-      set_fact:
+      ansible.builtin.set_fact:
         debian_packages_install: "{{ debian_packages_install }} + ['{{ item.name }}']"
       loop: "{{ debian_packages }}"
-      when: item.state|lower == "present"
+      when: item.state | lower == "present"
 
     - name: Define Debian Packages to Uninstall
-      set_fact:
+      ansible.builtin.set_fact:
         debian_packages_uninstall: "{{ debian_packages_uninstall }} + ['{{ item.name }}']"
       loop: "{{ debian_packages }}"
-      when: item.state|lower == "absent"
+      when: item.state | lower == "absent"
 
     - name: Define RedHat Packages to Install
-      set_fact:
+      ansible.builtin.set_fact:
         redhat_packages_install: "{{ redhat_packages_install }} + ['{{ item.name }}']"
       loop: "{{ redhat_packages }}"
-      when: item.state|lower == "present"
+      when: item.state | lower == "present"
 
     - name: Define RedHat Packages to Uninstall
-      set_fact:
+      ansible.builtin.set_fact:
         redhat_packages_uninstall: "{{ redhat_packages_uninstall }} + ['{{ item.name }}']"
       loop: "{{ redhat_packages }}"
-      when: item.state|lower == "absent"
+      when: item.state | lower == "absent"
 
     - name: Define Ruby Gems to Install
-      set_fact:
+      ansible.builtin.set_fact:
         gem_packages_install: "{{ gem_packages_install }} + ['{{ item.name }}']"
       loop: "{{ gem_packages }}"
-      when: item.state|lower == "present"
+      when: item.state | lower == "present"
 
     - name: Define Ruby Gems to Uninstall
-      set_fact:
+      ansible.builtin.set_fact:
         gem_packages_uninstall: "{{ gem_packages_uninstall }} + ['{{ item.name }}']"
       loop: "{{ gem_packages }}"
-      when: item.state|lower == "absent"
+      when: item.state | lower == "absent"
 
-    - block:
+    - name: Apply Arch Linux tasks
+      when: ansible_os_family == "Archlinux"
+      block:
         - name: Upgrading OS Packages
-          pacman:
+          community.general.packaging.os.pacman:
             update_cache: true
             upgrade: true
           become: true
@@ -98,7 +100,7 @@
           until: result is successful
 
         - name: Installing OS Packages
-          pacman:
+          community.general.packaging.os.pacman:
             name: "{{ arch_packages_install }}"
             state: present
           become: true
@@ -106,49 +108,47 @@
           until: result is successful
 
         - name: Uninstalling OS Packages
-          pacman:
+          community.general.packaging.os.pacman:
             name: "{{ arch_packages_uninstall }}"
             state: absent
           become: true
           register: result
           until: result is successful
 
-      when: ansible_os_family == "Archlinux"
-
-    - block:
+    - name: Apply macOS tasks
+      when: ansible_os_family == "Darwin"
+      block:
         - name: Ensuring Homebrew Is Installed
-          stat:
+          ansible.builtin.stat:
             path: /usr/local/bin/brew
           register: homebrew_check
 
         - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
-          fail:
+          ansible.builtin.fail:
             msg: Homebrew is missing...Install from http://brew.sh/
           when:
             - not homebrew_check.stat.exists
             - not install_homebrew_if_missing|bool
 
         - name: Installing Homebrew
-          command: >
+          ansible.builtin.command: >
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
           when:
             - not homebrew_check.stat.exists
             - install_homebrew_if_missing|bool
 
-      when: ansible_os_family == "Darwin"
-
-    - name: ansible-hashicorp-toolbox
-      include_role:
+    - name: Apply ansible-hashicorp-toolbox role
+      ansible.builtin.include_role:
         name: ansible-hashicorp-toolbox
       when: ansible_os_family not in ['Darwin']
 
-    - name: ansible-docker
-      include_role:
+    - name: Apply ansible-docker role
+      ansible.builtin.include_role:
         name: ansible-docker
       when: ansible_os_family in ["ArchLinux", "Debian", "elementary OS", "RedHat"]
 
-    - name: ansible-virtualbox
-      include_role:
+    - name: Apply ansible-virtualbox role
+      ansible.builtin.include_role:
         name: ansible-virtualbox
       when: >
         (ansible_os_family == "Debian" or
@@ -157,23 +157,25 @@
         ansible_os_family == "elementary OS") and
         ansible_virtualization_role != "guest"
 
-    - block:
+    - name: Apply macOS Homebrew tasks
+      when: ansible_os_family == "Darwin"
+      block:
         - name: Updating Homebrew
-          homebrew:
+          community.general.packaging.os.homebrew:
             update_homebrew: "{{ update_homebrew }}"
           register: result
           until: result is successful
           when: homebrew_check.stat.exists
 
         - name: Upgrading Homebrew Packages
-          homebrew:
+          community.general.packaging.os.homebrew:
             upgrade_all: "{{ upgrade_homebrew_packages }}"
           register: result
           until: result is successful
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Taps
-          homebrew_tap:
+          community.general.packaging.os.homebrew_tap:
             name: "{{ item.name }}"
             state: "{{ item.state }}"
           register: result
@@ -182,7 +184,7 @@
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Cask Packages
-          homebrew_cask:
+          community.general.packaging.os.homebrew_tap:
             name: "{{ brew_cask_packages_install }}"
             state: present
           register: result
@@ -190,7 +192,7 @@
           when: homebrew_check.stat.exists
 
         - name: Uninstall Homebrew Cask Packages
-          homebrew_cask:
+          community.general.packaging.os.homebrew_tap:
             name: "{{ brew_cask_packages_uninstall }}"
             state: absent
           register: result
@@ -198,7 +200,7 @@
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Packages
-          homebrew:
+          community.general.packaging.os.homebrew:
             name: "{{ brew_packages_install }}"
             state: present
           register: result
@@ -206,18 +208,18 @@
           when: homebrew_check.stat.exists
 
         - name: Uninstall Homebrew Packages
-          homebrew:
+          community.general.packaging.os.homebrew:
             name: "{{ brew_packages_uninstall }}"
             state: absent
           register: result
           until: result is successful
           when: homebrew_check.stat.exists
 
-      when: ansible_os_family == "Darwin"
-
-    - block:
+    - name: Apply Debian tasks
+      when: ansible_os_family in ["Debian", "elementary OS"]
+      block:
         - name: Ensuring Initial Pre-Reqs Are Installed
-          apt:
+          ansible.builtin.apt:
             name:
               - apt-transport-https
             state: present
@@ -226,7 +228,7 @@
           until: result is successful
 
         - name: Adding NodeJS Repo Key
-          apt_key:
+          ansible.builtin.apt_key:
             url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
             state: present
           become: true
@@ -235,8 +237,8 @@
             - ansible_distribution_version is version('9', '>=')
 
         - name: Adding NodeJS Repo
-          apt_repository:
-            repo: "{{ 'deb https://deb.nodesource.com/node_11.x ' + ansible_distribution_release|lower + ' main' }}"
+          ansible.builtin.apt_repository:
+            repo: "{{ 'deb https://deb.nodesource.com/node_11.x ' + ansible_distribution_release | lower + ' main' }}"
             state: present
           become: true
           when:
@@ -244,14 +246,14 @@
             - ansible_distribution_version is version('9', '>=')
 
         - name: Adding Debian Contrib Component
-          apt_repository:
-            repo: "{{ 'deb http://http.debian.net/debian ' + ansible_distribution_release|lower + ' contrib' }}"
+          ansible.builtin.apt_repository:
+            repo: "{{ 'deb http://http.debian.net/debian ' + ansible_distribution_release | lower + ' contrib' }}"
             state: present
           become: true
           when: ansible_distribution == "Debian"
 
         - name: Updating Apt Cache
-          apt:
+          ansible.builtin.apt:
             update_cache: true
             cache_valid_time: 3600
           become: true
@@ -259,7 +261,7 @@
           until: result is successful
 
         - name: Installing OS Packages
-          apt:
+          ansible.builtin.apt:
             name: "{{ debian_packages_install }}"
             state: present
           become: true
@@ -267,7 +269,7 @@
           until: result is successful
 
         - name: Uninstalling OS Packages
-          apt:
+          ansible.builtin.apt:
             name: "{{ debian_packages_uninstall }}"
             state: absent
           become: true
@@ -275,7 +277,7 @@
           until: result is successful
 
         - name: Installing fonts-firacode
-          apt:
+          ansible.builtin.apt:
             name: fonts-firacode
             state: present
           become: true
@@ -289,7 +291,7 @@
             ansible_distribution == "elementary OS"
 
         - name: Installing ATOM Editor
-          apt:
+          ansible.builtin.apt:
             deb: "{{ atom_editor_dl }}/atom-amd64.deb"
             state: present
           become: true
@@ -297,7 +299,7 @@
           until: result is successful
 
         - name: Installing Hyper Terminal
-          apt:
+          ansible.builtin.apt:
             deb: https://github.com/zeit/hyper/releases/download/3.0.2/hyper_3.0.2_amd64.deb
             state: present
           become: true
@@ -307,14 +309,14 @@
         # https://www.dropbox.com/install-linux
         # This should never have to change
         - name: Installing Dropbox Helper Application
-          apt:
+          ansible.builtin.apt:
             deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
           become: true
           register: result
           until: result is successful
 
         - name: Adding Google Chrome Repo Key
-          apt_key:
+          ansible.builtin.apt_key:
             url: https://dl-ssl.google.com/linux/linux_signing_key.pub
             state: present
           become: true
@@ -322,14 +324,14 @@
           until: result is successful
 
         - name: Adding Google Chrome Repo
-          apt_repository:
+          ansible.builtin.apt_repository:
             repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
             filename: google-chrome
             state: present
           become: true
 
         - name: Installing Google Chrome
-          apt:
+          ansible.builtin.apt:
             name: google-chrome-stable
             state: present
           become: true
@@ -337,7 +339,7 @@
           until: result is successful
 
         - name: Adding Brave Browser Repo Key
-          apt_key:
+          ansible.builtin.apt_key:
             url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
             state: present
           become: true
@@ -346,7 +348,7 @@
           when: ansible_distribution != "elementary OS"
 
         - name: Adding Brave Browser Repo
-          apt_repository:
+          ansible.builtin.apt_repository:
             repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
             state: present
           become: true
@@ -355,7 +357,7 @@
           when: ansible_distribution != "elementary OS"
 
         - name: Installing Brave Browser
-          apt:
+          ansible.builtin.apt:
             name: brave-browser
             state: present
           become: true
@@ -364,7 +366,7 @@
           when: ansible_distribution != "elementary OS"
 
         - name: Adding VS Code Repo Key
-          apt_key:
+          ansible.builtin.apt_key:
             url: https://packages.microsoft.com/keys/microsoft.asc
             state: present
           become: true
@@ -372,13 +374,13 @@
           until: result is successful
 
         - name: Adding VS Code Repo
-          apt_repository:
+          ansible.builtin.apt_repository:
             repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
             state: present
           become: true
 
         - name: Installing VS Code
-          apt:
+          ansible.builtin.apt:
             name: code
             state: present
           become: true
@@ -386,14 +388,14 @@
           until: result is successful
 
         - name: Removing Redundant VS Code Repo
-          file:
+          ansible.builtin.file:
             path: /etc/apt/sources.list.d/vscode.list
             state: absent
           become: true
           register: _vscode_repo_removed
 
         - name: Updating Apt Cache
-          apt:
+          ansible.builtin.apt:
             update_cache: true
           become: true
           register: result
@@ -401,7 +403,7 @@
           when: _vscode_repo_removed.changed
 
         - name: Installing Postman Pre-Reqs
-          apt:
+          ansible.builtin.apt:
             name:
               - libgconf-2-4
             state: present
@@ -414,7 +416,7 @@
             ansible_distribution == "elementary OS"
 
         - name: Installing Postman
-          unarchive:
+          ansible.builtin.unarchive:
             src: https://dl.pstmn.io/download/latest/linux64
             dest: "{{ postman_install_dir }}"
             remote_src: true
@@ -423,7 +425,7 @@
           become: true
 
         - name: Creating Postman Desktop Launcher
-          template:
+          ansible.builtin.template:
             src: templates/Postman.desktop.j2
             dest: /usr/share/applications/Postman.desktop
             owner: root
@@ -432,30 +434,30 @@
           become: true
 
         - name: Installing Bat
-          apt:
+          ansible.builtin.apt:
             deb: https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
             state: present
           become: true
           register: result
           until: result is successful
 
-      when: ansible_os_family in ["Debian", "elementary OS"]
-
-    - block:
+    - name: Apply RedHat tasks
+      when: ansible_os_family == "RedHat"
+      block:
         - name: Adding Dropbox Repo
-          yum_repository:
+          ansible.builtin.yum_repository:
             name: dropbox
             description: Dropbox Repository
-            baseurl: "http://linux.dropbox.com/{{ ansible_distribution|lower }}/{{ ansible_distribution_version }}/"
+            baseurl: "http://linux.dropbox.com/{{ ansible_distribution | lower }}/{{ ansible_distribution_version }}/"
             enabled: true
             gpgcheck: true
-            gpgkey: "http://linux.dropbox.com/{{ ansible_distribution|lower }}/rpm-public-key.asc"
+            gpgkey: "http://linux.dropbox.com/{{ ansible_distribution | lower }}/rpm-public-key.asc"
           become: true
           when:
             - ansible_distribution == "Fedora"
 
         - name: Adding Google Chrome Repo
-          yum_repository:
+          ansible.builtin.yum_repository:
             name: google-chrome
             description: Google Chrome
             baseurl: http://dl.google.com/linux/chrome/rpm/stable/$basearch
@@ -464,18 +466,20 @@
             gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub
           become: true
 
-      when: ansible_os_family == "RedHat"
-
-    - block:
+    - name: Apply RedHat tasks
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_distribution != "Fedora"
+      block:
         - name: Installing EPEL-Release
-          yum:
+          ansible.builtin.yum:
             name: epel-release
           become: true
           register: result
           until: result is successful
 
         - name: Installing OS Packages
-          yum:
+          ansible.builtin.yum:
             name: "{{ redhat_packages_install }}"
             state: present
           become: true
@@ -483,7 +487,7 @@
           until: result is successful
 
         - name: Uninstalling OS Packages
-          yum:
+          ansible.builtin.yum:
             name: "{{ redhat_packages_uninstall }}"
             state: absent
           become: true
@@ -491,7 +495,7 @@
           until: result is successful
 
         - name: Installing ATOM Editor
-          yum:
+          ansible.builtin.yum:
             name: "{{ atom_editor_dl }}/atom.x86_64.rpm"
             state: present
           become: true
@@ -499,7 +503,7 @@
           until: result is successful
 
         - name: Installing Hyper Terminal
-          yum:
+          ansible.builtin.yum:
             name: https://github.com/zeit/hyper/releases/download/3.0.2/hyper-3.0.2.x86_64.rpm
             state: present
           become: true
@@ -513,7 +517,7 @@
         #   become: true
 
         - name: Installing Google Chrome
-          yum:
+          ansible.builtin.yum:
             name: google-chrome-stable
             state: present
           become: true
@@ -521,7 +525,7 @@
           until: result is successful
 
         - name: Adding VS Code Repo
-          yum_repository:
+          ansible.builtin.yum_repository:
             name: vscode
             description: Visual Studio Code
             baseurl: https://packages.microsoft.com/yumrepos/vscode
@@ -531,24 +535,24 @@
           become: true
 
         - name: Installing VS Code
-          yum:
+          ansible.builtin.yum:
             name: code
             state: present
           become: true
           register: result
           until: result is successful
 
+    - name: Apply Fedora specific tasks
       when:
         - ansible_os_family == "RedHat"
-        - ansible_distribution != "Fedora"
-
-    - block:
+        - ansible_distribution == "Fedora"
+      block:
         - name: Updating vim-minimal (If Installed)
-          command: dnf update -y vim-minimal
+          ansible.builtin.command: dnf update -y vim-minimal
           become: true
 
         - name: Installing OS Packages
-          dnf:
+          ansible.builtin.dnf:
             name: "{{ redhat_packages_install }}"
             state: present
           become: true
@@ -556,7 +560,7 @@
           until: result is successful
 
         - name: Uninstalling OS Packages
-          dnf:
+          ansible.builtin.dnf:
             name: "{{ redhat_packages_uninstall }}"
             state: absent
           become: true
@@ -564,15 +568,15 @@
           until: result is successful
 
         - name: Installing ATOM Editor
-          dnf:
-            name: "{{ atom_editor_dl+'/atom.x86_64.rpm' }}"
+          ansible.builtin.dnf:
+            name: "{{ atom_editor_dl + '/atom.x86_64.rpm' }}"
             state: present
           become: true
           register: result
           until: result is successful
 
         - name: Installing Dropbox
-          dnf:
+          ansible.builtin.dnf:
             name: nautilus-dropbox
             state: present
           become: true
@@ -580,7 +584,7 @@
           until: result is successful
 
         - name: Installing Google Chrome
-          dnf:
+          ansible.builtin.dnf:
             name: google-chrome-stable
             state: present
           become: true
@@ -588,7 +592,7 @@
           until: result is successful
 
         - name: Adding VS Code Repo
-          yum_repository:
+          ansible.builtin.yum_repository:
             name: vscode
             description: Visual Studio Code
             baseurl: https://packages.microsoft.com/yumrepos/vscode
@@ -598,19 +602,15 @@
           become: true
 
         - name: Installing VS Code
-          dnf:
+          ansible.builtin.dnf:
             name: code
             state: present
           become: true
           register: result
           until: result is successful
 
-      when:
-        - ansible_os_family == "RedHat"
-        - ansible_distribution == "Fedora"
-
     - name: Installing Ruby Gems
-      gem:
+      community.general.packaging.language.gem:
         name: "{{ item.name }}"
         state: "{{ item.state }}"
       # become: true
@@ -619,7 +619,7 @@
       loop: "{{ gem_packages }}"
 
     - name: Installing NPM Packages
-      npm:
+      community.general.packaging.language.npm:
         name: "{{ item.name }}"
         state: "{{ item.state }}"
         global: "{{ item.global }}"
@@ -632,7 +632,7 @@
         - item.global
 
     - name: Installing NPM Packages
-      npm:
+      community.general.packaging.language.npm:
         name: "{{ item.name }}"
         state: "{{ item.state }}"
         global: "{{ item.global }}"
@@ -645,35 +645,35 @@
         - not item.global
 
     - name: Capturing ATOM Packages
-      shell: apm list | awk '{ print $2 }'
+      ansible.builtin.shell: apm list | awk '{ print $2 }'
       register: _apm_list
       changed_when: false
 
     - name: Installing ATOM Packages
-      command: "apm install {{ item }}"
+      ansible.builtin.command: "apm install {{ item }}"
       loop: "{{ atom_editor_packages }}"
       when: item not in _apm_list.stdout
 
     - name: Installing Oh My ZSH
-      git:
+      ansible.builtin.git:
         repo: https://github.com/robbyrussell/oh-my-zsh
         dest: $HOME/.oh-my-zsh
-      when: install_oh_my_zsh|bool
+      when: install_oh_my_zsh | bool
 
     - name: Capturing Current User
-      set_fact:
-        _current_user: "{{ lookup('env','USER') }}"
+      ansible.builtin.set_fact:
+        _current_user: "{{ lookup('env', 'USER') }}"
       become: false
 
     - name: Changing Shell To ZSH
-      user:
+      ansible.builtin.user:
         name: "{{ _current_user }}"
         shell: /bin/zsh
       become: true
-      when: install_oh_my_zsh|bool
+      when: install_oh_my_zsh | bool
 
     - name: Installing Meslo Powerline Font
-      get_url:
+      ansible.builtin.get_url:
         url: https://github.com/powerline/fonts/blob/master/Meslo%20Slashed/Meslo%20LG%20M%20Regular%20for%20Powerline.ttf?raw=true
         dest: $HOME/Library/Fonts/Meslo LG M Regular for Powerline.ttf
       when:
@@ -681,4 +681,4 @@
         - install_oh_my_zsh|bool
 
     - name: Installing VS Code Extensions
-      shell: cat $HOME/.dotfiles/Code/extensions.list | xargs -L1 code --install-extension
+      ansible.builtin.shell: cat $HOME/.dotfiles/Code/extensions.list | xargs -L1 code --install-extension
