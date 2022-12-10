@@ -18,14 +18,14 @@ brew_cask_packages:
     state: present
   # - name: bitwarden
   #   state: absent
-  # - name: brave-browser
-  #   state: absent
+  - name: brave-browser
+    state: present
   # - name: cyberduck
   #   state: absent
   # - name: db-browser-for-sqlite
   #   state: present
   - name: docker
-    state: present
+    state: absent
   - name: dropbox
     state: present
   - name: firefox
@@ -68,8 +68,8 @@ brew_cask_packages:
   #   state: present
   # - name: parallels-virtualization-sdk
   #   state: present
-  # - name: postman
-  #   state: present
+  - name: postman
+    state: present
   # - name: powershell
   #   state: absent
   # - name: royal-tsx
@@ -88,6 +88,8 @@ brew_cask_packages:
   #   state: present
   # - name: tigervnc-viewer
   #   state: absent
+  - name: typora
+    state: present
   # - name: unetbootin
   #   state: present
   - name: vagrant
@@ -104,6 +106,8 @@ brew_cask_packages:
   #   state: present
   # - name: vnc-viewer
   #   state: present
+  - name: zoom
+    state: present
 
 brew_packages:
   # - name: apm-bash-completion
@@ -116,18 +120,24 @@ brew_packages:
   #   state: present
   # - name: bat
   #   state: absent
+  - name: docker
+    state: present
+  - name: docker-compose
+    state: present
   # - name: docker-completion
   #   state: present
   # - name: docker-compose-completion
   #   state: present
+  - name: docker-credential-helper
+    state: present
   # - name: flint-checker
   #   state: present
   # - name: gcc
   #   state: present
   # - name: gdbm
   #   state: present
-  # - name: gh
-  #   state: absent
+  - name: gh
+    state: present
   - name: git
     state: present
   - name: git-crypt
@@ -158,6 +168,8 @@ brew_packages:
   #   state: present
   # - name: kubectx
   #   state: present
+  - name: kubernetes-cli
+    state: present
   # - name: kubernetes-helm
   #   state: present
   #   # Provides drill. dig replacement
@@ -165,18 +177,20 @@ brew_packages:
   #   state: absent
   # - name: libvirt
   #   state: absent
+  - name: lima
+    state: present
   # - name: mysql
   #   state: absent
   # - name: ncdu
   #   state: present
   # - name: nmap
   #   state: present
-  # - name: npm
-  #   state: present
+  - name: npm
+    state: present
   # - name: octant
   #   state: present
-  # - name: openssl
-  #   state: present
+  - name: openssl
+    state: present
   - name: packer
     state: present
   # - name: packer-completion
@@ -203,14 +217,14 @@ brew_packages:
   #   state: absent
   - name: shellcheck
     state: present
-  # - name: ssh-copy-id
-  #   state: present
+  - name: ssh-copy-id
+    state: present
   # - name: terraform
   #   state: absent
-  # - name: tfenv
-  #   state: present
-  # - name: tmux
-  #   state: absent
+  - name: tfenv
+    state: present
+  - name: tmux
+    state: present
   - name: tree
     state: present
   # - name: vagrant-completion

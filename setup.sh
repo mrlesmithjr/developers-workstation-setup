@@ -16,8 +16,13 @@ if [ ! -d "$DOTFILES_DIR" ]; then
 	git clone "$DOTFILES_REPO" "$DOTFILES_DIR" --recurse-submodules
 	# shellcheck source=/dev/null
 	source "$DOTFILES_DIR/install"
-	git config --global user.name ""
-	git config --global user.email ""
+	git config --global --unset commit.gpgsign
+	git config --global --unset gpg.format
+	git config --global --unset gpg.ssh.allowedsignersfile
+	git config --global --unset gpg.ssh.program
+	git config --global --unset user.email
+	git config --global --unset user.name
+	git config --global --unset user.signingkey
 # else
 # 		cd "$DOTFILES_DIR"
 # 		git fetch
@@ -47,35 +52,32 @@ else
 	eval "$(pyenv init -)"
 fi
 
-# Check for existing Python virtualenv called ansible-system on Linux
-if [[ $(uname) == "Linux" ]]; then
-	# Get current Python version from pyenv
-	CURRENT_PYTHON_VERSION=$(pyenv version | awk '{ print $1 }')
-	pyenv versions | grep ansible-system
-	if [ $? -eq 1 ]; then
-		pyenv global system
-		pyenv virtualenv --system-site-packages ansible-system
-	fi
-	pyenv global ansible-system
-	pip3 install --upgrade pip
-	pip3 install -r "$DOTFILES_DIR/requirements.txt" -r "$DOTFILES_DIR/requirements-dev.txt"
-	cd "$BUILD_DIR"
-	ansible-playbook ansible-install-os-packages.yml -K
-	pyenv global "$CURRENT_PYTHON_VERSION"
-else
-	cd "$BUILD_DIR"
-	ansible-playbook ansible-install-os-packages.yml -K
+# Check for existing Python virtualenv called ansible-system
+CURRENT_PYTHON_VERSION=$(pyenv version | awk '{ print $1 }')
+set +e
+pyenv versions | grep ansible-system
+EXIT="$?"
+if [[ "$EXIT" == 1 ]]; then
+	# pyenv global system
+	pyenv virtualenv --system-site-packages system ansible-system
 fi
+set -e
+pyenv global ansible-system
+pip3 install --upgrade pip
+pip3 install -r "$BUILD_DIR/requirements.txt" -r "$BUILD_DIR/requirements-dev.txt"
+cd "$BUILD_DIR" || exit
+ansible-playbook ansible-install-os-packages.yml -K
+pyenv global "$CURRENT_PYTHON_VERSION"
 
 # If running on macOS, setup Time Machine Exclusions
 if [[ $(uname) == "Darwin" ]]; then
 	if [ -d "$BUILD_DIR/tools/time_machine_exclusions" ]; then
 		if [ -f "$BUILD_DIR/tools/time_machine_exclusions/install.sh" ]; then
-			cd "$BUILD_DIR/tools/time_machine_exclusions"
+			cd "$BUILD_DIR/tools/time_machine_exclusions" || exit
 			# shellcheck source=/dev/null
 			source install.sh
 		fi
 	fi
 fi
 
-cd "$BUILD_DIR"
+cd "$BUILD_DIR" || exit

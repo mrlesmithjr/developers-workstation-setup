@@ -18,73 +18,73 @@
   tasks:
     - name: Define Arch Packages to Install
       ansible.builtin.set_fact:
-        arch_packages_install: "{{ arch_packages_install }} + ['{{ item.name }}']"
+        arch_packages_install: "{{ arch_packages_install + [item.name] }}"
       loop: "{{ arch_packages }}"
       when: item.state | lower == "present"
 
     - name: Define Arch Packages to Uninstall
       ansible.builtin.set_fact:
-        arch_packages_uninstall: "{{ arch_packages_uninstall }} + ['{{ item.name }}']"
+        arch_packages_uninstall: "{{ arch_packages_uninstall + [item.name] }}"
       loop: "{{ arch_packages }}"
       when: item.state | lower == "absent"
 
     - name: Define Homebrew Cask Packages to Install
       ansible.builtin.set_fact:
-        brew_cask_packages_install: "{{ brew_cask_packages_install }} + ['{{ item.name }}']"
+        brew_cask_packages_install: "{{ brew_cask_packages_install + [item.name] }}"
       loop: "{{ brew_cask_packages }}"
       when: item.state | lower == "present"
 
     - name: Define Homebrew Cask Packages to Uninstall
       ansible.builtin.set_fact:
-        brew_cask_packages_uninstall: "{{ brew_cask_packages_uninstall }} + ['{{ item.name }}']"
+        brew_cask_packages_uninstall: "{{ brew_cask_packages_uninstall + [item.name] }}"
       loop: "{{ brew_cask_packages }}"
       when: item.state | lower == "absent"
 
     - name: Define Homebrew Packages to Install
       ansible.builtin.set_fact:
-        brew_packages_install: "{{ brew_packages_install }} + ['{{ item.name }}']"
+        brew_packages_install: "{{ brew_packages_install + [item.name] }}"
       loop: "{{ brew_packages }}"
       when: item.state | lower == "present"
 
     - name: Define Homebrew Packages to Uninstall
       ansible.builtin.set_fact:
-        brew_packages_uninstall: "{{ brew_packages_uninstall }} + ['{{ item.name }}']"
+        brew_packages_uninstall: "{{ brew_packages_uninstall + [item.name] }}"
       loop: "{{ brew_packages }}"
       when: item.state | lower == "absent"
 
     - name: Define Debian Packages to Install
       ansible.builtin.set_fact:
-        debian_packages_install: "{{ debian_packages_install }} + ['{{ item.name }}']"
+        debian_packages_install: "{{ debian_packages_install + [item.name] }}"
       loop: "{{ debian_packages }}"
       when: item.state | lower == "present"
 
     - name: Define Debian Packages to Uninstall
       ansible.builtin.set_fact:
-        debian_packages_uninstall: "{{ debian_packages_uninstall }} + ['{{ item.name }}']"
+        debian_packages_uninstall: "{{ debian_packages_uninstall + [item.name] }}"
       loop: "{{ debian_packages }}"
       when: item.state | lower == "absent"
 
     - name: Define RedHat Packages to Install
       ansible.builtin.set_fact:
-        redhat_packages_install: "{{ redhat_packages_install }} + ['{{ item.name }}']"
+        redhat_packages_install: "{{ redhat_packages_install + [item.name] }}"
       loop: "{{ redhat_packages }}"
       when: item.state | lower == "present"
 
     - name: Define RedHat Packages to Uninstall
       ansible.builtin.set_fact:
-        redhat_packages_uninstall: "{{ redhat_packages_uninstall }} + ['{{ item.name }}']"
+        redhat_packages_uninstall: "{{ redhat_packages_uninstall + [item.name] }}"
       loop: "{{ redhat_packages }}"
       when: item.state | lower == "absent"
 
     - name: Define Ruby Gems to Install
       ansible.builtin.set_fact:
-        gem_packages_install: "{{ gem_packages_install }} + ['{{ item.name }}']"
+        gem_packages_install: "{{ gem_packages_install + [item.name] }}"
       loop: "{{ gem_packages }}"
       when: item.state | lower == "present"
 
     - name: Define Ruby Gems to Uninstall
       ansible.builtin.set_fact:
-        gem_packages_uninstall: "{{ gem_packages_uninstall }} + ['{{ item.name }}']"
+        gem_packages_uninstall: "{{ gem_packages_uninstall + [item.name] }}"
       loop: "{{ gem_packages }}"
       when: item.state | lower == "absent"
 
@@ -118,10 +118,18 @@
     - name: Apply macOS tasks
       when: ansible_os_family == "Darwin"
       block:
+        # This only works on non-m1
         - name: Ensuring Homebrew Is Installed
           ansible.builtin.stat:
             path: /usr/local/bin/brew
           register: homebrew_check
+          when: ansible_architecture != "arm64"
+
+        - name: Ensuring Homebrew is Installed
+          ansible.builtin.stat:
+            path: /opt/homebrew/bin
+          register: homebrew_check
+          when: ansible_architecture == "arm64"
 
         - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
           ansible.builtin.fail:
@@ -132,7 +140,7 @@
 
         - name: Installing Homebrew
           ansible.builtin.command: >
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           when:
             - not homebrew_check.stat.exists
             - install_homebrew_if_missing|bool
@@ -184,7 +192,7 @@
           when: homebrew_check.stat.exists
 
         - name: Installing Homebrew Cask Packages
-          community.general.packaging.os.homebrew_tap:
+          community.general.packaging.os.homebrew_cask:
             name: "{{ brew_cask_packages_install }}"
             state: present
           register: result
@@ -192,7 +200,7 @@
           when: homebrew_check.stat.exists
 
         - name: Uninstall Homebrew Cask Packages
-          community.general.packaging.os.homebrew_tap:
+          community.general.packaging.os.homebrew_cask:
             name: "{{ brew_cask_packages_uninstall }}"
             state: absent
           register: result
