@@ -118,18 +118,20 @@
     - name: Apply macOS tasks
       when: ansible_os_family == "Darwin"
       block:
-        # This only works on non-m1
-        - name: Ensuring Homebrew Is Installed
-          ansible.builtin.stat:
-            path: /usr/local/bin/brew
-          register: homebrew_check
+        - name: Set HomeBrew path
+          ansible.builtin.set_fact:
+            homebrew_path: /usr/local/bin/brew
           when: ansible_architecture != "arm64"
 
-        - name: Ensuring Homebrew is Installed
-          ansible.builtin.stat:
-            path: /opt/homebrew/bin
-          register: homebrew_check
+        - name: Set HomeBrew path
+          ansible.builtin.set_fact:
+            homebrew_path: /opt/homebrew/bin
           when: ansible_architecture == "arm64"
+
+        - name: Ensuring Homebrew Is Installed
+          ansible.builtin.stat:
+            path: "{{ homebrew_path  }}"
+          register: homebrew_check
 
         - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
           ansible.builtin.fail:
