@@ -91,14 +91,14 @@ ansible-playbook ansible-install-os-packages.yml -K
 pyenv global "$CURRENT_PYTHON_VERSION"
 
 # If running on macOS, setup Time Machine Exclusions
-if [[ $(uname) == "Darwin" ]]; then
-	if [ -d "$BUILD_DIR/tools/time_machine_exclusions" ]; then
-		if [ -f "$BUILD_DIR/tools/time_machine_exclusions/install.sh" ]; then
-			cd "$BUILD_DIR/tools/time_machine_exclusions" || exit
-			# shellcheck source=/dev/null
-			source install.sh
-		fi
-	fi
-fi
+# if [[ $(uname) == "Darwin" ]]; then
+# 	if [ -d "$BUILD_DIR/tools/time_machine_exclusions" ]; then
+# 		if [ -f "$BUILD_DIR/tools/time_machine_exclusions/install.sh" ]; then
+# 			cd "$BUILD_DIR/tools/time_machine_exclusions" || exit
+# 			# shellcheck source=/dev/null
+# 			source install.sh
+# 		fi
+# 	fi
+# fi
 
 cd "$BUILD_DIR" || exit

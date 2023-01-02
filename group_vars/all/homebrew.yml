@@ -30,8 +30,8 @@ brew_cask_packages:
     state: present
   - name: firefox
     state: present
-  # - name: font-fira-code
-  #   state: present
+  - name: font-fira-code
+    state: present
   # - name: gimp
   #   state: absent
   # - name: google-backup-and-sync
@@ -92,8 +92,8 @@ brew_cask_packages:
     state: present
   # - name: unetbootin
   #   state: present
-  - name: vagrant
-    state: present
+  # - name: vagrant
+  #   state: present
   # - name: vagrant-vmware-utility
   #   state: present
   # - name: virtualbox
