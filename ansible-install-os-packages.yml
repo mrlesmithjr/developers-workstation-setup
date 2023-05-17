@@ -388,7 +388,7 @@
 
         - name: Adding VS Code Repo
           ansible.builtin.apt_repository:
-            repo: deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main
+            repo: deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main
             state: present
           become: true
 
