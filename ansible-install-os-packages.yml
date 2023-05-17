@@ -378,6 +378,7 @@
         - name: Adding VS Code Repo Key
           ansible.builtin.apt_key:
             url: https://packages.microsoft.com/keys/microsoft.asc
+            dest: /etc/apt/keyrings/
             state: present
           become: true
           register: result
