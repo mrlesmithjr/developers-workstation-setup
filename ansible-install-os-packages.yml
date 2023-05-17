@@ -381,7 +381,7 @@
             url: https://packages.microsoft.com/keys/microsoft.asc
             dest: /etc/apt/keyrings/
             mode: u=rw,g=r,o=r
-            state: present
+#             state: present
           become: true
 #           register: result
 #           until: result is successful
