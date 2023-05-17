@@ -694,5 +694,5 @@
         - ansible_os_family == "Darwin"
         - install_oh_my_zsh|bool
 
-    - name: Installing VS Code Extensions
-      ansible.builtin.shell: cat $HOME/.dotfiles/Code/extensions.list | xargs -L1 code --install-extension
+#     - name: Installing VS Code Extensions
+#       ansible.builtin.shell: cat $HOME/.dotfiles/Code/extensions.list | xargs -L1 code --install-extension
