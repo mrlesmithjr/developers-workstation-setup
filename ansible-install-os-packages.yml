@@ -147,25 +147,25 @@
             - not homebrew_check.stat.exists
             - install_homebrew_if_missing|bool
 
-    - name: Apply ansible-hashicorp-toolbox role
-      ansible.builtin.include_role:
-        name: ansible-hashicorp-toolbox
-      when: ansible_os_family not in ['Darwin']
+#     - name: Apply ansible-hashicorp-toolbox role
+#       ansible.builtin.include_role:
+#         name: ansible-hashicorp-toolbox
+#       when: ansible_os_family not in ['Darwin']
 
-    - name: Apply ansible-docker role
-      ansible.builtin.include_role:
-        name: ansible-docker
-      when: ansible_os_family in ["ArchLinux", "Debian", "elementary OS", "RedHat"]
+#     - name: Apply ansible-docker role
+#       ansible.builtin.include_role:
+#         name: ansible-docker
+#       when: ansible_os_family in ["ArchLinux", "Debian", "elementary OS", "RedHat"]
 
-    - name: Apply ansible-virtualbox role
-      ansible.builtin.include_role:
-        name: ansible-virtualbox
-      when: >
-        (ansible_os_family == "Debian" or
-        ansible_distribution == "Fedora" or
-        ansible_os_family == "Archlinux" or
-        ansible_os_family == "elementary OS") and
-        ansible_virtualization_role != "guest"
+#     - name: Apply ansible-virtualbox role
+#       ansible.builtin.include_role:
+#         name: ansible-virtualbox
+#       when: >
+#         (ansible_os_family == "Debian" or
+#         ansible_distribution == "Fedora" or
+#         ansible_os_family == "Archlinux" or
+#         ansible_os_family == "elementary OS") and
+#         ansible_virtualization_role != "guest"
 
     - name: Apply macOS Homebrew tasks
       when: ansible_os_family == "Darwin"
@@ -300,30 +300,30 @@
             ansible_distribution_version is version('9', '>=')) or
             ansible_distribution == "elementary OS"
 
-        - name: Installing ATOM Editor
-          ansible.builtin.apt:
-            deb: "{{ atom_editor_dl }}/atom-amd64.deb"
-            state: present
-          become: true
-          register: result
-          until: result is successful
+#         - name: Installing ATOM Editor
+#           ansible.builtin.apt:
+#             deb: "{{ atom_editor_dl }}/atom-amd64.deb"
+#             state: present
+#           become: true
+#           register: result
+#           until: result is successful
 
-        - name: Installing Hyper Terminal
-          ansible.builtin.apt:
-            deb: https://github.com/zeit/hyper/releases/download/3.0.2/hyper_3.0.2_amd64.deb
-            state: present
-          become: true
-          register: result
-          until: result is successful
+#         - name: Installing Hyper Terminal
+#           ansible.builtin.apt:
+#             deb: https://github.com/zeit/hyper/releases/download/3.0.2/hyper_3.0.2_amd64.deb
+#             state: present
+#           become: true
+#           register: result
+#           until: result is successful
 
-        # https://www.dropbox.com/install-linux
-        # This should never have to change
-        - name: Installing Dropbox Helper Application
-          ansible.builtin.apt:
-            deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
-          become: true
-          register: result
-          until: result is successful
+#         # https://www.dropbox.com/install-linux
+#         # This should never have to change
+#         - name: Installing Dropbox Helper Application
+#           ansible.builtin.apt:
+#             deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+#           become: true
+#           register: result
+#           until: result is successful
 
         - name: Adding Google Chrome Repo Key
           ansible.builtin.apt_key:
@@ -335,7 +335,7 @@
 
         - name: Adding Google Chrome Repo
           ansible.builtin.apt_repository:
-            repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+            repo: deb http://dl.google.com/linux/chrome/deb/ stable main
             filename: google-chrome
             state: present
           become: true
@@ -348,32 +348,32 @@
           register: result
           until: result is successful
 
-        - name: Adding Brave Browser Repo Key
-          ansible.builtin.apt_key:
-            url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
-            state: present
-          become: true
-          register: result
-          until: result is successful
-          when: ansible_distribution != "elementary OS"
+#         - name: Adding Brave Browser Repo Key
+#           ansible.builtin.apt_key:
+#             url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
+#             state: present
+#           become: true
+#           register: result
+#           until: result is successful
+#           when: ansible_distribution != "elementary OS"
 
-        - name: Adding Brave Browser Repo
-          ansible.builtin.apt_repository:
-            repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
-            state: present
-          become: true
-          register: result
-          until: result is successful
-          when: ansible_distribution != "elementary OS"
+#         - name: Adding Brave Browser Repo
+#           ansible.builtin.apt_repository:
+#             repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
+#             state: present
+#           become: true
+#           register: result
+#           until: result is successful
+#           when: ansible_distribution != "elementary OS"
 
-        - name: Installing Brave Browser
-          ansible.builtin.apt:
-            name: brave-browser
-            state: present
-          become: true
-          register: result
-          until: result is successful
-          when: ansible_distribution != "elementary OS"
+#         - name: Installing Brave Browser
+#           ansible.builtin.apt:
+#             name: brave-browser
+#             state: present
+#           become: true
+#           register: result
+#           until: result is successful
+#           when: ansible_distribution != "elementary OS"
 
         - name: Adding VS Code Repo Key
           ansible.builtin.apt_key:
@@ -385,7 +385,7 @@
 
         - name: Adding VS Code Repo
           ansible.builtin.apt_repository:
-            repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+            repo: deb https://packages.microsoft.com/repos/vscode stable main
             state: present
           become: true
 
@@ -443,13 +443,13 @@
             mode: u=rw,g=r,o=r
           become: true
 
-        - name: Installing Bat
-          ansible.builtin.apt:
-            deb: https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
-            state: present
-          become: true
-          register: result
-          until: result is successful
+#         - name: Installing Bat
+#           ansible.builtin.apt:
+#             deb: https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
+#             state: present
+#           become: true
+#           register: result
+#           until: result is successful
 
     - name: Apply RedHat tasks
       when: ansible_os_family == "RedHat"
@@ -654,15 +654,15 @@
         - npm_packages is defined
         - not item.global
 
-    - name: Capturing ATOM Packages
-      ansible.builtin.shell: apm list | awk '{ print $2 }'
-      register: _apm_list
-      changed_when: false
+#     - name: Capturing ATOM Packages
+#       ansible.builtin.shell: apm list | awk '{ print $2 }'
+#       register: _apm_list
+#       changed_when: false
 
-    - name: Installing ATOM Packages
-      ansible.builtin.command: "apm install {{ item }}"
-      loop: "{{ atom_editor_packages }}"
-      when: item not in _apm_list.stdout
+#     - name: Installing ATOM Packages
+#       ansible.builtin.command: "apm install {{ item }}"
+#       loop: "{{ atom_editor_packages }}"
+#       when: item not in _apm_list.stdout
 
     - name: Installing Oh My ZSH
       ansible.builtin.git:
