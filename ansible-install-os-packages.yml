@@ -401,20 +401,20 @@
           register: result
           until: result is successful
 
-        - name: Removing Redundant VS Code Repo
-          ansible.builtin.file:
-            path: /etc/apt/sources.list.d/vscode.list
-            state: absent
-          become: true
-          register: _vscode_repo_removed
+#         - name: Removing Redundant VS Code Repo
+#           ansible.builtin.file:
+#             path: /etc/apt/sources.list.d/vscode.list
+#             state: absent
+#           become: true
+#           register: _vscode_repo_removed
 
-        - name: Updating Apt Cache
-          ansible.builtin.apt:
-            update_cache: true
-          become: true
-          register: result
-          until: result is successful
-          when: _vscode_repo_removed.changed
+#         - name: Updating Apt Cache
+#           ansible.builtin.apt:
+#             update_cache: true
+#           become: true
+#           register: result
+#           until: result is successful
+#           when: _vscode_repo_removed.changed
 
         - name: Installing Postman Pre-Reqs
           ansible.builtin.apt:
