@@ -376,13 +376,15 @@
 #           when: ansible_distribution != "elementary OS"
 
         - name: Adding VS Code Repo Key
-          ansible.builtin.apt_key:
+          ansible.builtin.get_url:
+#           ansible.builtin.apt_key:
             url: https://packages.microsoft.com/keys/microsoft.asc
             dest: /etc/apt/keyrings/
+            mode: u=rw,g=r,o=r
             state: present
           become: true
-          register: result
-          until: result is successful
+#           register: result
+#           until: result is successful
 
         - name: Adding VS Code Repo
           ansible.builtin.apt_repository:
